@@ -1,0 +1,25 @@
+\subsection{SHAP Stability (RQ4)}
+Attribution stability across 50 folds and 10 seeds, and agreement with permutation importance, are reported with the interpretation results in Section~VII (Tables~\ref{tab:e8} and~\ref{tab:shaptop}).
+
+\subsection{Cross-Attention in the Dual-Branch Network}
+Table~\ref{tab:e9} compares six networks trained with identical preprocessing, SMOTE and training budget. The numerical check confirms the derivation of Section~IV-C: with sequence length 1 every attention weight equals 1.000000, and replacing the ECG query with random values leaves the output unchanged. Consistent with this, the v4 architecture (AUC \xattnAUC{}) performs like its linear equivalent (\linearAUC{}) and like plain concatenation (\concatAUC{}; $\Delta$ \dConcat{}). A token-level variant, in which each ECG-proxy feature attends over the 13 clinical features so that attention can actually weight them, reaches \tokensAUC{} ($\Delta$ \dTokens{}). None of the networks outperforms the clinical-only MLP (\mlpClinAUC{}) or the soft-voting ensemble (\fullAUC{}) on 303 patients. We therefore remove cross-attention from the proposed system and report the dual-branch network only as an ablation.
+
+\input{generated/tab_e9.tex}
+
+\subsection{PTB-XL ECG Branch}
+The parallel ECG benchmark (D2; PTB-XL normal versus abnormal) was ablated in the same way (Table~\ref{tab:e10}). Lead~II with Efficient tsfresh features reaches AUC \ecgRefAUC{}. The choice of lead matters (Lead~I \ecgLeadIAUC{}, V1 \ecgVOneAUC{}, V5 \ecgVFiveAUC{}). A compact 12-lead representation (10 Minimal tsfresh statistics per lead) reaches \ecgTwelveMinAUC{}, and combining it with the Lead-II descriptors reaches \ecgTwelvePlusAUC{}, which quantifies the information lost by restricting the branch to one lead. The 10 Minimal features of Lead~II alone reach \ecgMinIIAUC{}. More data helps the ECG branch, unlike the clinical one (Table~\ref{tab:e10size}; \ecgSizeList{}), consistent with the learning curves of ECG models trained on far larger datasets~\cite{ribeiro2020}. Records with PTB-XL noise or electrode annotations ($n=\ecgNoisyN{}$) are classified with AUC \ecgNoisyAUC{} versus \ecgCleanAUC{} for clean records.
+
+\input{generated/tab_e10.tex}
+\input{generated/tab_e10size.tex}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA10_ptbxl_branch.png}
+\caption{PTB-XL ECG-branch ablation: $\Delta$AUC versus Lead~II with Efficient tsfresh features.}
+\label{fig:a10}
+\end{figure}
+
+\subsection{Summary: Which Claims Survive?}
+Table~\ref{tab:verdict} re-tests each quantitative claim of the v4 manuscript.
+
+\input{generated/tab_verdict.tex}

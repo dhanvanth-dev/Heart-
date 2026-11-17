@@ -99,6 +99,10 @@ def execute(nb):
 
 def merge(executed):
     nb = nbformat.read(SRC_NB, as_version=4)
+    for cell in nb.cells:                 # Colab writes 'metadata' on stream outputs (invalid in nbformat 4)
+        for out in cell.get('outputs', []):
+            if out.get('output_type') == 'stream':
+                out.pop('metadata', None)
     for idx, note in LEGACY_NOTES.items():
         nb.cells[idx].source = nb.cells[idx].source.rstrip() + note
     insert_at = 38                       # after the Section-17 ablation code cell

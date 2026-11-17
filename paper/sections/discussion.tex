@@ -1,0 +1,25 @@
+\section{Discussion}
+\subsection{Protocol-Aware Comparison with Prior Work}
+Under a leak-free, repeated-CV protocol the full system reaches AUC \fullAUC{} and accuracy \fullAcc{} on Cleveland. That is below the 89--99\% accuracies in Table~\ref{tab:lit} and below our own v4 hold-out figure. The gap is mostly methodological rather than a weakness of the model. Section~VI-D shows that a favourable single split can add about 7 points of accuracy, and oversampling before CV inflates AUC. Published Cleveland results should be compared only when their protocols are known to be equivalent, and we recommend that future work report repeated-CV estimates with corrected CIs, as done here.
+
+\subsection{Why the ECG-Proxy Block Adds Nothing, and What the Model Learns}
+The proxy features are deterministic functions of five clinical columns that the classifiers already see. Tree ensembles can represent products, ratios and thresholds through successive splits, and an RBF-SVM through its kernel, so the engineered terms add redundancy but no information. The control experiments (Section~VI-B) confirm that the block behaves like any other set of redundant columns. Predictive signal comes mainly from \texttt{cp}, \texttt{ca} and \texttt{thal}. Two of these, vessel count by fluoroscopy and thallium scintigraphy, come from the same invasive or nuclear work-up that produces the angiographic label, so the model is best described as a \emph{post-test} classifier rather than a screening tool. Without them, AUC falls to \robRestFu{} on resting data alone (Section~VI-E), and external sites, where these tests are mostly missing, show lower discrimination (Section~VI-G). The clinically useful contributions of this pipeline are therefore its calibrated, explainable risk estimates and the quantification of which tests drive them, not a fusion gain.
+
+\subsection{Non-Significant Results}
+The v4 manuscript reported non-significant tests ($p=1.00$, $p=0.72$) but still described the fusion benefit as ``practically meaningful''. The present results show that this interpretation is not justified. The paired clinical$-$fused AUC difference is \dClinAUC{}. Its CI is centred near zero, and its lower bound excludes any fusion gain larger than about 0.01 AUC, so the study is not merely underpowered. With 50 paired folds it can rule out the large effects claimed in v4. Absence of evidence for a small gain remains possible; detecting a gain of $\leq$0.01 AUC would require several thousand patients~\cite{vabalas2019}.
+
+\subsection{Answers to the Research Questions}
+\textbf{RQ1} (proxy features): No. $\Delta$AUC \dClinAUC{} in favour of clinical-only, no feature group matters, and noise controls perform equally well.
+\textbf{RQ2} (components): Probabilistic ensembling matters (hard voting $-$0.03 AUC; single RF or GBM $-$0.02), but soft voting is no better than SVM or logistic regression alone. SMOTE and the choice of imbalance strategy do not matter on this mildly imbalanced dataset. Cross-attention adds nothing (Section~VI-I).
+\textbf{RQ3} (robustness): Conclusions are unchanged under 16 perturbations, across subgroups and at three external sites. Generalisation is limited mainly by missing \texttt{ca}/\texttt{thal} rather than by the feature set. Hold-out estimates from a single split are unreliable.
+\textbf{RQ4} (explanations): The top of the SHAP ranking (\texttt{cp}, \texttt{ca}, \texttt{thal}) is stable across folds and seeds. Credit assigned to engineered features is redistributed from their parent variables and does not indicate added value.
+
+\subsection{Limitations}
+\emph{Cohort size and setting.} Cleveland has 303 patients from one centre, collected in the 1980s, with a referral population. External validation was possible only on three historical cohorts with heavy missingness, and no cohort of South Asian, Sub-Saharan African or East Asian patients was available.
+\emph{No paired ECG data.} Cleveland and PTB-XL contain different patients, so true clinical--ECG fusion could not be evaluated. The proxy features approximate ECG information from five exercise-test variables, and PTB-XL serves only as a parallel benchmark with a different label construct.
+\emph{Single lead and statistical descriptors.} The main ECG branch uses Lead~II and tsfresh statistics rather than clinical ECG biomarkers (QTc, PR, QRS duration); Section~VI-J quantifies part of this.
+\emph{Hyper-parameters} were tuned once on the v4 training split. Nested tuning gave similar results for XGBoost but was not repeated for every member.
+\emph{Explanations} were not reviewed by clinicians.
+
+\subsection{Future Work}
+The most valuable next step is a cohort with paired clinical variables and raw ECGs for the same patients (e.g.\ MIMIC-IV-ECG with linked records), which would allow true fusion to be tested with the protocol developed here. Replacing tsfresh descriptors with representations from self-supervised ECG encoders, extending to 12 leads, multi-site or federated training, predicting stenosis severity (\texttt{num}~0--4), and a structured clinician review of the SHAP explanations are further directions.

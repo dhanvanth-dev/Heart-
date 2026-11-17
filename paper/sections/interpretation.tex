@@ -1,0 +1,51 @@
+\section{Interpretability (RQ4)}
+SHAP values describe how the fitted model uses its inputs. They are associational, not causal, and agreement with clinical knowledge is necessary but not sufficient evidence of validity (Section~II-D). We therefore report the explanations together with their stability, and we propose review by cardiologists as the appropriate next validation step.
+
+\subsection{Global Feature Ranking}
+Fig.~\ref{fig:shapglobal} (v4) shows the global TreeSHAP ranking of the XGBoost member on the seed-42 hold-out. Thallium scan result (\texttt{thal}), number of fluoroscopy-visible vessels (\texttt{ca}), chest-pain type (\texttt{cp}) and ST depression (\texttt{oldpeak}) dominate. This matches established CAD risk factors: a reversible thallium defect indicates inducible ischaemia, and \texttt{ca} directly measures the coronary narrowing that defines the label. That is unsurprising, because \texttt{ca} and \texttt{thal} come from the same diagnostic work-up as the angiographic label, which is a form of label proximity that a screening model would not have.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.92\linewidth]{fig4_shap_global.png}
+\caption{Global SHAP importance of the XGBoost member on the v4 hold-out (red = clinical, blue = ECG-proxy).}
+\label{fig:shapglobal}
+\end{figure}
+
+\subsection{Stability of the Ranking}
+Repeating TreeSHAP in each of the 50 CV folds (Table~\ref{tab:e8}, Table~\ref{tab:shaptop}, Fig.~\ref{fig:a7}) shows that the \emph{top} of the ranking is stable while the tail is not. The fold-to-fold Spearman correlation of all 36 feature ranks is \shapRhoFold{}, and the top-5 sets overlap with a mean Jaccard index of \shapJac{}. Across ten training seeds on the full data the ranking correlation is \shapRhoSeed{}. Agreement with permutation importance on the same test folds is lower (Spearman \shapRhoPI{}). This is expected for correlated features: SHAP shares credit among correlated features, whereas permuting one of them leaves the information available through the others.
+
+Under repeated CV, \texttt{cp}, \texttt{ca} and \texttt{thal} are in the top five in every fold (Table~\ref{tab:shaptop}). The ECG-proxy block nevertheless receives about a quarter of the total $|$SHAP$|$ mass, although removing it does not change AUC (Section~VI-A). The clearest case is \texttt{ischaemia\_score}, a product of \texttt{oldpeak}, \texttt{slope} and \texttt{exang}. It ranks fourth by mean $|$SHAP$|$ but its permutation importance is close to zero, and the raw \texttt{oldpeak} column itself falls far down the ranking because its derived terms absorb the credit. The duplicated columns show the same effect: \texttt{oldpeak}, \texttt{thalach}, \texttt{slope}, \texttt{exang} and \texttt{restecg} each appear twice in D3 and their attribution is split between identical copies (on average \dupShareMean{} goes to the proxy copy). The apparent importance of ``ECG-proxy'' features in Fig.~\ref{fig:shapglobal} is therefore \emph{redistributed} importance of the clinical exercise-test variables, not new information. SHAP rankings on engineered features should not be read as evidence that the engineering adds predictive value.
+
+\input{generated/tab_e8.tex}
+\input{generated/tab_shaptop.tex}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA7_shap_rank_stability.png}
+\caption{Distribution of each feature's SHAP rank across 50 CV folds.}
+\label{fig:a7}
+\end{figure}
+
+\subsection{Dependence and Local Explanations}
+Dependence plots (Fig.~\ref{fig:a8}) show the expected monotone effects: risk rises with \texttt{oldpeak}, with the number of diseased vessels and with a reversible thallium defect, falls with higher maximal heart rate, and rises for asymptomatic chest pain (cp $=4$). Fig.~\ref{fig:a9} shows local explanations for one true-positive, false-negative, false-positive and true-negative patient. The false negative is a CAD patient whose chest-pain type, vessel count and thallium result all look benign (all three push the prediction towards ``healthy''); this failure mode cannot be fixed by ECG-proxy features derived from the same exercise test. The v4 interaction heatmap (Fig.~\ref{fig:heatmap}) is retained. Its clusters (oldpeak with its derived terms; thalach with slope products) arise largely because these features are functions of each other.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA8_shap_dependence.png}
+\caption{SHAP dependence for oldpeak, ca, thal, cp and thalach (out-of-fold, repeat 1; red = CAD).}
+\label{fig:a8}
+\end{figure*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA9_shap_local.png}
+\caption{Local SHAP explanations (top-8 contributions) for one TP, FN, FP and TN patient.}
+\label{fig:a9}
+\end{figure*}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.9\linewidth]{fig5_shap_heatmap.png}
+\caption{Correlation of SHAP values among the top-12 features (v4).}
+\label{fig:heatmap}
+\end{figure}

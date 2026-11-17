@@ -1,0 +1,16 @@
+\subsection{External Validation on Three Further Hospitals (RQ3)}
+All earlier results are internal to Cleveland. Table~\ref{tab:sites} shows that the three other UCI sites differ markedly from it. CAD prevalence ranges from 36\% (Hungary) to 94\% (Switzerland), and the two strongest Cleveland predictors are mostly unavailable: \texttt{ca} is missing for 96--99\% and \texttt{thal} for 42--90\% of patients. Models trained on all 303 Cleveland patients and applied unchanged (Table~\ref{tab:e7}, Fig.~\ref{fig:a6}) reach AUC \extHunFu{} in Hungary, \extSwiFu{} in Switzerland and \extVaFu{} at VA Long Beach (clinical-only: \extHunCl{}, \extSwiCl{}, \extVaCl{}). Fused and clinical-only models do not differ at any site (fused$-$clinical $\Delta$AUC with bootstrap CI: \extDeltaList{}).
+
+A second edge case emerges here. When \texttt{ca} and \texttt{thal} are missing, median imputation fills them with Cleveland's medians (0 vessels, normal thallium), the values most typical of \emph{healthy} patients. Sensitivity therefore collapses at the external sites (Table~\ref{tab:e7}). Training without \texttt{ca}, \texttt{thal} and \texttt{slope} restores sensitivity to 0.77--0.85 and improves calibration (lower Brier) at the cost of specificity, and at VA it also improves AUC. A model should therefore be trained on the features that will actually be available at deployment rather than relying on imputation of its most important inputs. Cholesterol is recorded as 0~mg/dL for all 123 Swiss and 49 VA patients. Treating these values as missing rather than literally changes external AUC by at most 0.004, because cholesterol carries little weight in the model (\texttt{E7\_chol\_zero\_edge\_case.csv} in the repository).
+
+\input{generated/tab_sites.tex}
+\input{generated/tab_e7.tex}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA6_external.png}
+\caption{External AUC of models trained on Cleveland only (dashed: Cleveland internal CV).}
+\label{fig:a6}
+\end{figure}
+
+\input{sections/ablation_part3}

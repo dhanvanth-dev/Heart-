@@ -1,0 +1,5 @@
+Stability measure,Value
+"Spearman ρ of SHAP rankings, fold vs fold (all 36 features)",0.898 (2.5–97.5%: 0.808–0.953)
+"Jaccard overlap of top-5 SHAP features, fold vs fold",0.742 (2.5–97.5%: 0.429–1.000)
+"Spearman ρ of SHAP rankings, seed vs seed (full data)",0.949 (2.5–97.5%: 0.925–0.976)
+"Spearman ρ, SHAP vs permutation importance (same fold)",0.270 (2.5–97.5%: -0.273–0.761)

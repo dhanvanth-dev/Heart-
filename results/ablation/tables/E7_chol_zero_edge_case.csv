@@ -1,0 +1,5 @@
+Site,Model,"AUC, chol=0 treated as missing","AUC, chol=0 taken literally",rows with chol=0
+Switzerland,Fused (full system),0.7717391304347826,0.7749999999999999,123
+Switzerland,Clinical only,0.7847826086956522,0.7826086956521738,123
+VA Long Beach,Fused (full system),0.7087774707198317,0.7096986445584946,49
+VA Long Beach,Clinical only,0.721279115673115,0.7178576128437952,49

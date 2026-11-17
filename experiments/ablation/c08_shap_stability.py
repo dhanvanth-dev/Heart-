@@ -82,7 +82,8 @@ display(dup.round(4)); dup.to_csv(f'{TAB_DIR}/E8_duplicate_attribution_split.csv
 
 # Figure A7: rank stability of the top-15 features
 fig, ax = plt.subplots(figsize=(9, 5.5))
-ax.boxplot([rank.iloc[:, i] for i in order[:15]], vert=False, labels=[FEATS36[i] for i in order[:15]])
+ax.boxplot([rank.iloc[:, i] for i in order[:15]], vert=False)
+ax.set_yticks(range(1, 16)); ax.set_yticklabels([FEATS36[i] for i in order[:15]])
 ax.invert_yaxis(); ax.set_xlabel(f'SHAP rank across {len(G)} CV folds (1 = most important)')
 ax.set_title('Figure A7: Stability of the SHAP feature ranking', fontweight='bold')
 plt.tight_layout(); plt.savefig(f'{FIG_DIR}/figA7_shap_rank_stability.png', dpi=200, bbox_inches='tight'); plt.show()
