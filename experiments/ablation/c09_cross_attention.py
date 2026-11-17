@@ -101,7 +101,7 @@ for name, mode in DL_VARIANTS.items():
              n_jobs=min(4, os.cpu_count() or 1))
 
 ref_dl = 'DL: dual branch + cross-attention (L=1, paper)'
-abl9 = summarize([REF, 'Clinical only'] + list(DL_VARIANTS), ref_dl, title='E9_cross_attention')
+abl9 = summarize([REF, '− ECG-proxy block (clinical only)'] + list(DL_VARIANTS), ref_dl, title='E9_cross_attention')
 display(fmt_table(abl9))
 
 # Numerical check: attention weights with sequence length 1 are exactly 1
