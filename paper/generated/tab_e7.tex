@@ -1,0 +1,27 @@
+\begin{table*}[!t]
+\centering
+\scriptsize
+\caption{External validation: trained on all 303 Cleveland patients, tested unchanged on three other hospitals.}
+\label{tab:e7}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{llcccc}
+\toprule
+Site & Model (trained on Cleveland) & AUC [95\% CI] & Sens. & Spec. & Brier \\
+\midrule
+Hungary & Clinical only & 0.886 [0.844, 0.927] & 0.557 & 0.963 & 0.143 \\
+Hungary & Clinical, without ca/thal/slope & 0.885 [0.844, 0.925] & 0.774 & 0.830 & 0.135 \\
+Hungary & Fused (full system) & 0.889 [0.847, 0.931] & 0.670 & 0.931 & 0.133 \\
+Hungary & Fused, without ca/thal/slope & 0.883 [0.841, 0.925] & 0.774 & 0.846 & 0.136 \\
+Switzerland & Clinical only & 0.785 [0.596, 0.946] & 0.548 & 0.875 & 0.262 \\
+Switzerland & Clinical, without ca/thal/slope & 0.792 [0.615, 0.951] & 0.817 & 0.625 & 0.150 \\
+Switzerland & Fused (full system) & 0.772 [0.552, 0.959] & 0.574 & 0.750 & 0.250 \\
+Switzerland & Fused, without ca/thal/slope & 0.771 [0.560, 0.941] & 0.800 & 0.625 & 0.154 \\
+VA Long Beach & Clinical only & 0.721 [0.635, 0.803] & 0.463 & 0.784 & 0.261 \\
+VA Long Beach & Clinical, without ca/thal/slope & 0.751 [0.672, 0.828] & 0.846 & 0.451 & 0.168 \\
+VA Long Beach & Fused (full system) & 0.709 [0.622, 0.790] & 0.510 & 0.784 & 0.255 \\
+VA Long Beach & Fused, without ca/thal/slope & 0.754 [0.674, 0.826] & 0.839 & 0.490 & 0.176 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}

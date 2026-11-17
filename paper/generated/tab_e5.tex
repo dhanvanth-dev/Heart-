@@ -1,0 +1,32 @@
+\begin{table*}[!t]
+\centering
+\scriptsize
+\caption{Robustness and edge cases. Each perturbation is applied identically to the fused and the clinical-only system.}
+\label{tab:e5}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lccccc}
+\toprule
+Scenario (3$\times$10-fold CV) & AUC fused & AUC clin. & $\Delta$AUC [95\% CI] & $p_{\mathrm{Holm}}$ & Sens. fused / clin. \\
+\midrule
+Baseline (no perturbation) & 0.901 & 0.907 & -0.006 [-0.018, +0.006] & 1.000 & 0.780 / 0.787 \\
+Training label noise 5\% & 0.894 & 0.906 & -0.011 [-0.025, +0.002] & 1.000 & 0.779 / 0.789 \\
+Training label noise 10\% & 0.889 & 0.901 & -0.012 [-0.029, +0.005] & 1.000 & 0.791 / 0.787 \\
+Training label noise 20\% & 0.863 & 0.877 & -0.014 [-0.033, +0.005] & 1.000 & 0.741 / 0.780 \\
+Test-time missing values (MCAR) 10\% & 0.892 & 0.894 & -0.002 [-0.016, +0.012] & 1.000 & 0.753 / 0.741 \\
+Test-time missing values (MCAR) 20\% & 0.876 & 0.880 & -0.004 [-0.017, +0.009] & 1.000 & 0.688 / 0.671 \\
+Test-time missing values (MCAR) 30\% & 0.863 & 0.862 & +0.002 [-0.014, +0.017] & 1.000 & 0.633 / 0.616 \\
+Missing values in train AND test 20\% & 0.878 & 0.880 & -0.002 [-0.016, +0.012] & 1.000 & 0.770 / 0.756 \\
+Measurement noise $\sigma$=0.25$\times$SD (test) & 0.899 & 0.906 & -0.007 [-0.019, +0.005] & 1.000 & 0.782 / 0.789 \\
+Measurement noise $\sigma$=0.5$\times$SD (test) & 0.901 & 0.904 & -0.003 [-0.017, +0.012] & 1.000 & 0.794 / 0.789 \\
+Measurement noise $\sigma$=1.0$\times$SD (test) & 0.898 & 0.900 & -0.003 [-0.022, +0.017] & 1.000 & 0.789 / 0.785 \\
+Training set reduced to 25\% & 0.872 & 0.882 & -0.010 [-0.029, +0.008] & 1.000 & 0.763 / 0.762 \\
+Training set reduced to 50\% & 0.886 & 0.900 & -0.014 [-0.036, +0.008] & 1.000 & 0.777 / 0.794 \\
+Training set reduced to 75\% & 0.896 & 0.909 & -0.013 [-0.028, +0.002] & 1.000 & 0.794 / 0.794 \\
+No angiography/thallium (ca, thal unavailable) & 0.864 & 0.866 & -0.002 [-0.015, +0.012] & 1.000 & 0.767 / 0.760 \\
+No exercise test (thalach, exang, oldpeak, slope) & 0.905 & 0.901 & +0.004 [-0.003, +0.012] & 1.000 & 0.782 / 0.775 \\
+Resting data only (both unavailable) & 0.837 & 0.834 & +0.003 [-0.009, +0.015] & 1.000 & 0.784 / 0.770 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}

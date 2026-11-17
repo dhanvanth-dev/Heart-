@@ -7,6 +7,7 @@ Table~\ref{tab:unimodal} reproduces the v4 unimodal baselines. \revnote{These we
 \caption{Unimodal baselines from v4 (10-fold CV on the SMOTE-balanced training partition; optimistic, see text).}
 \label{tab:unimodal}
 \setlength{\tabcolsep}{2.5pt}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tabular}{llccccc}
 \toprule
 Data & Model & Acc. & AUC & F1 & Prec. & Rec.\\
@@ -22,6 +23,7 @@ ECG (PTB-XL) & Random forest & 0.831 & 0.912 & 0.823 & 0.849 & 0.807\\
 ECG (PTB-XL) & XGBoost & 0.790 & 0.898 & 0.773 & 0.828 & 0.737\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \subsection{Fusion Results Reported in v4}
@@ -32,6 +34,7 @@ Table~\ref{tab:v4fusion} lists the v4 fusion results \emph{with their actual pro
 \caption{v4 fusion results with corrected protocol labels.}
 \label{tab:v4fusion}
 \setlength{\tabcolsep}{2.5pt}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tabular}{lcccc}
 \toprule
 Model & Protocol & Acc. & AUC & Rec.\\
@@ -47,6 +50,7 @@ Tuned soft voting, fused & 10-fold CV (303) & 0.815 & -- & --\\
 Tuned XGB, clinical vs.\ fused & 10-fold CV (303) & 0.815 vs.\ 0.815 & -- & --\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \begin{figure}[!t]

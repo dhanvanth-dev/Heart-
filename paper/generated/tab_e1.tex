@@ -1,0 +1,41 @@
+\begin{table*}[!t]
+\centering
+\scriptsize
+\caption{Component ablation under the controlled protocol (5$\times$10-fold repeated CV, 50 paired folds, fixed hyper-parameters, all preprocessing inside folds). $\Delta$AUC is paired against the full system; CIs use the Nadeau--Bengio correction.}
+\label{tab:e1}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lcccccccc}
+\toprule
+Variant & AUC [95\% CI] & Acc. & Sens. & Spec. & F1 & Brier & $\Delta$AUC [95\% CI] & $p_{\mathrm{Holm}}$ \\
+\midrule
+Full system (clinical + ECG-proxy, SMOTE, soft voting) & 0.902 [0.858, 0.945] & 0.823 & 0.773 & 0.867 & 0.799 & 0.127 & -- & -- \\
+\midrule
+$-$ ECG-proxy block (clinical only) & 0.906 [0.864, 0.947] & 0.826 & 0.789 & 0.858 & 0.805 & 0.126 & +0.004 [-0.009, +0.017] & 1.000 \\
+$-$ clinical block (ECG-proxy only) & 0.813 [0.758, 0.867] & 0.769 & 0.708 & 0.820 & 0.737 & 0.175 & -0.089 [-0.132, -0.046] & 0.003 \\
+\midrule
+$-$ duplicated raw proxy columns & 0.902 [0.858, 0.946] & 0.827 & 0.771 & 0.874 & 0.801 & 0.126 & +0.000 [-0.004, +0.005] & 1.000 \\
+$-$ polynomial terms & 0.902 [0.858, 0.945] & 0.828 & 0.777 & 0.872 & 0.804 & 0.127 & +0.000 [-0.004, +0.004] & 1.000 \\
+$-$ interaction terms & 0.902 [0.858, 0.946] & 0.822 & 0.773 & 0.864 & 0.798 & 0.126 & +0.001 [-0.004, +0.005] & 1.000 \\
+$-$ log transforms & 0.902 [0.858, 0.945] & 0.827 & 0.774 & 0.873 & 0.803 & 0.127 & -0.000 [-0.004, +0.004] & 1.000 \\
+$-$ ratio features & 0.901 [0.857, 0.945] & 0.825 & 0.781 & 0.863 & 0.803 & 0.127 & -0.001 [-0.006, +0.005] & 1.000 \\
+$-$ threshold flags & 0.900 [0.858, 0.943] & 0.823 & 0.768 & 0.869 & 0.797 & 0.127 & -0.001 [-0.009, +0.006] & 1.000 \\
+$-$ HR-reserve features & 0.901 [0.857, 0.944] & 0.826 & 0.780 & 0.866 & 0.803 & 0.127 & -0.001 [-0.006, +0.004] & 1.000 \\
+$-$ ischaemia composite & 0.902 [0.858, 0.945] & 0.826 & 0.774 & 0.869 & 0.801 & 0.127 & +0.000 [-0.005, +0.006] & 1.000 \\
+downslope coding fixed (slope==3) & 0.902 [0.858, 0.946] & 0.823 & 0.776 & 0.864 & 0.800 & 0.127 & +0.000 [-0.003, +0.004] & 1.000 \\
+\midrule
+$-$ SMOTE (no resampling) & 0.900 [0.855, 0.945] & 0.834 & 0.763 & 0.895 & 0.806 & 0.128 & -0.002 [-0.009, +0.006] & 1.000 \\
+\midrule
+$-$ soft voting $\rightarrow$ XGBoost only & 0.895 [0.850, 0.939] & 0.821 & 0.771 & 0.863 & 0.796 & 0.132 & -0.007 [-0.020, +0.006] & 1.000 \\
+$-$ soft voting $\rightarrow$ SVM only & 0.905 [0.862, 0.949] & 0.840 & 0.815 & 0.861 & 0.823 & 0.121 & +0.004 [-0.015, +0.023] & 1.000 \\
+$-$ soft voting $\rightarrow$ GBM only & 0.884 [0.840, 0.927] & 0.801 & 0.757 & 0.839 & 0.775 & 0.139 & -0.018 [-0.034, -0.002] & 0.558 \\
+$-$ soft voting $\rightarrow$ RF only & 0.880 [0.831, 0.929] & 0.817 & 0.771 & 0.856 & 0.793 & 0.139 & -0.022 [-0.041, -0.002] & 0.510 \\
+$-$ soft voting $\rightarrow$ logistic regression & 0.898 [0.853, 0.942] & 0.838 & 0.823 & 0.851 & 0.824 & 0.125 & -0.004 [-0.025, +0.017] & 1.000 \\
+soft $\rightarrow$ hard (majority) voting & 0.869 [0.818, 0.920] & 0.812 & 0.796 & 0.825 & 0.793 & 0.147 & -0.032 [-0.053, -0.011] & 0.067 \\
+soft voting $\rightarrow$ stacking (LR meta-learner) & 0.902 [0.857, 0.946] & 0.824 & 0.783 & 0.859 & 0.802 & 0.124 & -0.000 [-0.005, +0.005] & 1.000 \\
+\midrule
+Clinical only, no SMOTE, logistic regression & 0.904 [0.862, 0.946] & 0.835 & 0.794 & 0.871 & 0.814 & 0.123 & +0.003 [-0.017, +0.022] & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}

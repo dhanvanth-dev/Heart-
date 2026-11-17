@@ -10,6 +10,7 @@ The variables \texttt{cp}, \texttt{restecg}, \texttt{slope} and \texttt{thal} ar
 \centering\scriptsize
 \caption{Cleveland Heart Disease dataset features.}
 \label{tab:features}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tabular}{lll}
 \toprule
 Feature & Description & Type\\
@@ -29,6 +30,7 @@ ca & Major vessels coloured by fluoroscopy (0--3) & Ordinal\\
 thal & Thallium scan (3 normal, 6 fixed, 7 reversible defect) & Categorical\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \input{generated/tab_demo.tex}
@@ -61,6 +63,7 @@ Table~\ref{tab:mapping} maps each dataset to its rows, features, label and the m
 \caption{Dataset-to-model mapping.}
 \label{tab:mapping}
 \setlength{\tabcolsep}{2pt}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tabular}{p{1.3cm}p{0.7cm}p{1.5cm}p{1.4cm}p{2.7cm}}
 \toprule
 Dataset & Rows & Features & Label & Used for / models\\
@@ -71,4 +74,5 @@ D2 PTB-XL & 303 (1,212) & 568 tsfresh (Lead II) & ECG normal/abnormal & Parallel
 External & 294/123/200 & as D1/D3 & CAD & Test only (Sec.~VI-G)\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}

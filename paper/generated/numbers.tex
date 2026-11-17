@@ -1,0 +1,137 @@
+\newcommand{\brierFull}{0.127}
+\newcommand{\calFull}{1.37}
+\newcommand{\calIsoAUC}{0.900}
+\newcommand{\calIsoBrier}{0.127}
+\newcommand{\calIsoSlope}{0.56}
+\newcommand{\calOnehotAUC}{0.903}
+\newcommand{\calOnehotBrier}{0.127}
+\newcommand{\calOnehotSlope}{1.39}
+\newcommand{\calPlattAUC}{0.900}
+\newcommand{\calPlattBrier}{0.125}
+\newcommand{\calPlattSlope}{1.13}
+\newcommand{\clinAUC}{0.906}
+\newcommand{\clinAUCci}{[0.864, 0.947]}
+\newcommand{\clinAcc}{0.826}
+\newcommand{\clinLRAUCval}{0.904}
+\newcommand{\concatAUC}{0.878}
+\newcommand{\dClinAUC}{+0.004 [-0.009, +0.017]}
+\newcommand{\dClinAcc}{+0.3 [-2.2, +2.7]}
+\newcommand{\dClinLRAUC}{+0.003 [-0.017, +0.022]}
+\newcommand{\dConcat}{-0.009 [-0.030, +0.012]}
+\newcommand{\dGbmOnlyAUC}{-0.018 [-0.034, -0.002]}
+\newcommand{\dHardAUC}{-0.032 [-0.053, -0.011]}
+\newcommand{\dLRAUC}{-0.004 [-0.025, +0.017]}
+\newcommand{\dNoSmoteAUC}{-0.002 [-0.009, +0.006]}
+\newcommand{\dNoSmoteAcc}{+1.1 [-0.6, +2.7]}
+\newcommand{\dProxyOnlyAUC}{-0.089 [-0.132, -0.046]}
+\newcommand{\dRfOnlyAUC}{-0.022 [-0.041, -0.002]}
+\newcommand{\dStackAUC}{-0.000 [-0.005, +0.005]}
+\newcommand{\dSvmOnlyAUC}{+0.004 [-0.015, +0.023]}
+\newcommand{\dTokens}{+0.006 [-0.023, +0.036]}
+\newcommand{\dXgbOnlyAUC}{-0.007 [-0.020, +0.006]}
+\newcommand{\defaultXgbAUC}{0.875}
+\newcommand{\dupShareMean}{22\%}
+\newcommand{\ecgCleanAUC}{0.845}
+\newcommand{\ecgLeadIAUC}{0.724}
+\newcommand{\ecgMinIIAUC}{0.666}
+\newcommand{\ecgNoisyAUC}{0.780}
+\newcommand{\ecgNoisyN}{72}
+\newcommand{\ecgRefAUC}{0.819}
+\newcommand{\ecgSizeList}{n=303: 0.823; n=606: 0.800; n=1212: 0.825}
+\newcommand{\ecgTwelveMinAUC}{0.768}
+\newcommand{\ecgTwelvePlusAUC}{0.823}
+\newcommand{\ecgVFiveAUC}{0.819}
+\newcommand{\ecgVOneAUC}{0.752}
+\newcommand{\engMaxAbs}{0.004}
+\newcommand{\extDeltaList}{Hungary: +0.004 [-0.007, +0.015]; Switzerland: -0.013 [-0.069, +0.035]; VA Long Beach: -0.013 [-0.035, +0.008]}
+\newcommand{\extHunCl}{0.886}
+\newcommand{\extHunFu}{0.889}
+\newcommand{\extSwiCl}{0.785}
+\newcommand{\extSwiFu}{0.772}
+\newcommand{\extVaCl}{0.721}
+\newcommand{\extVaFu}{0.709}
+\newcommand{\fixedXgbAUC}{0.895}
+\newcommand{\fullAUC}{0.902}
+\newcommand{\fullAUCci}{[0.858, 0.945]}
+\newcommand{\fullAcc}{0.823}
+\newcommand{\fullSens}{0.773}
+\newcommand{\fullSpec}{0.867}
+\newcommand{\gbmOnlyAUCval}{0.884}
+\newcommand{\hardAUCval}{0.869}
+\newcommand{\hoClAcc}{0.831 (2.5--97.5\%: 0.738--0.902)}
+\newcommand{\hoClAccPct}{81}
+\newcommand{\hoClAccSeed}{0.869}
+\newcommand{\hoDAUC}{-0.007 (2.5--97.5\%: -0.034--0.017)}
+\newcommand{\hoDAUCPct}{94}
+\newcommand{\hoDAUCSeed}{0.012}
+\newcommand{\hoDAcc}{0.002 (2.5--97.5\%: -0.049--0.049)}
+\newcommand{\hoDAccPct}{90}
+\newcommand{\hoDAccSeed}{0.033}
+\newcommand{\hoFuAUC}{0.904 (2.5--97.5\%: 0.832--0.955)}
+\newcommand{\hoFuAUCPct}{99}
+\newcommand{\hoFuAUCSeed}{0.96}
+\newcommand{\hoFuAcc}{0.833 (2.5--97.5\%: 0.754--0.918)}
+\newcommand{\hoFuAccPct}{95}
+\newcommand{\hoFuAccSeed}{0.902}
+\newcommand{\hoN}{200}
+\newcommand{\lRAUCval}{0.898}
+\newcommand{\leakPreAUC}{0.902}
+\newcommand{\leakSmoteAUC}{0.916}
+\newcommand{\linearAUC}{0.885}
+\newcommand{\mlpClinAUC}{0.892}
+\newcommand{\nVariants}{94}
+\newcommand{\nestedAUC}{0.900}
+\newcommand{\noSmoteAUCval}{0.900}
+\newcommand{\noSmoteSens}{0.763}
+\newcommand{\noSmoteSpec}{0.895}
+\newcommand{\noiseAUC}{0.899}
+\newcommand{\nonecgAUC}{0.903}
+\newcommand{\pClinLR}{1.000}
+\newcommand{\pGbmOnly}{0.558}
+\newcommand{\pHard}{0.067}
+\newcommand{\pLR}{1.000}
+\newcommand{\pNoSmote}{1.000}
+\newcommand{\pProxyOnly}{0.003}
+\newcommand{\pRfOnly}{0.510}
+\newcommand{\pStack}{1.000}
+\newcommand{\pSvmOnly}{1.000}
+\newcommand{\pXgbOnly}{1.000}
+\newcommand{\permN}{100}
+\newcommand{\permNull}{0.497}
+\newcommand{\permNullSd}{0.049}
+\newcommand{\permObs}{0.907}
+\newcommand{\permP}{0.010}
+\newcommand{\proxyOnlyAUCval}{0.813}
+\newcommand{\rfOnlyAUCval}{0.880}
+\newcommand{\robMaxD}{+0.004}
+\newcommand{\robMinD}{-0.014}
+\newcommand{\robN}{17}
+\newcommand{\robNoAngioCl}{0.866}
+\newcommand{\robNoAngioD}{-0.002 [-0.015, +0.012]}
+\newcommand{\robNoAngioFu}{0.864}
+\newcommand{\robNoExCl}{0.901}
+\newcommand{\robNoExD}{+0.004 [-0.003, +0.012]}
+\newcommand{\robNoExFu}{0.905}
+\newcommand{\robNoiseCl}{0.877}
+\newcommand{\robNoiseD}{-0.014 [-0.033, +0.005]}
+\newcommand{\robNoiseFu}{0.863}
+\newcommand{\robNsig}{0}
+\newcommand{\robRestCl}{0.834}
+\newcommand{\robRestD}{+0.003 [-0.009, +0.015]}
+\newcommand{\robRestFu}{0.837}
+\newcommand{\robSmallCl}{0.882}
+\newcommand{\robSmallD}{-0.010 [-0.029, +0.008]}
+\newcommand{\robSmallFu}{0.872}
+\newcommand{\shapJac}{0.74}
+\newcommand{\shapRhoFold}{0.90}
+\newcommand{\shapRhoPI}{0.27}
+\newcommand{\shapRhoSeed}{0.95}
+\newcommand{\shuffledAUC}{0.897}
+\newcommand{\smoteDupGap}{0.0\%}
+\newcommand{\smoteInconsistent}{13.6\%}
+\newcommand{\smoteNonInt}{100.0\%}
+\newcommand{\stackAUCval}{0.902}
+\newcommand{\svmOnlyAUCval}{0.905}
+\newcommand{\tokensAUC}{0.893}
+\newcommand{\xattnAUC}{0.887}
+\newcommand{\xgbOnlyAUCval}{0.895}

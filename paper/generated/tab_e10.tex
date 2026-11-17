@@ -1,0 +1,25 @@
+\begin{table*}[!t]
+\centering
+\scriptsize
+\caption{PTB-XL ECG-branch (D2) ablation, 303 records, 5$\times$10-fold CV.}
+\label{tab:e10}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lcccc}
+\toprule
+ECG-branch variant (PTB-XL labels) & AUC [95\% CI] & Acc. & $\Delta$AUC [95\% CI] & $p_{\mathrm{Holm}}$ \\
+\midrule
+Lead II, Efficient tsfresh, soft voting (reference) & 0.819 [0.766, 0.871] & 0.725 & -- & -- \\
+VarianceThreshold + scaling fitted on all records & 0.820 [0.766, 0.874] & 0.727 & +0.001 [-0.007, +0.009] & 1.000 \\
+Random Forest only (Section 13 best) & 0.786 [0.732, 0.839] & 0.695 & -0.033 [-0.073, +0.007] & 0.656 \\
+No SMOTE & 0.807 [0.752, 0.862] & 0.717 & -0.012 [-0.040, +0.017] & 1.000 \\
+Minimal tsfresh (10 features), Lead II & 0.666 [0.593, 0.739] & 0.589 & -0.153 [-0.234, -0.072] & 0.004 \\
+Lead I, Efficient & 0.724 [0.659, 0.789] & 0.656 & -0.095 [-0.176, -0.014] & 0.182 \\
+Lead V1, Efficient & 0.752 [0.695, 0.810] & 0.684 & -0.067 [-0.145, +0.012] & 0.656 \\
+Lead V5, Efficient & 0.819 [0.762, 0.876] & 0.743 & -0.000 [-0.062, +0.061] & 1.000 \\
+12-lead Minimal tsfresh (120 features) & 0.768 [0.714, 0.823] & 0.700 & -0.051 [-0.118, +0.016] & 0.680 \\
+12-lead Minimal + Lead II Efficient & 0.823 [0.772, 0.874] & 0.740 & +0.004 [-0.024, +0.032] & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}

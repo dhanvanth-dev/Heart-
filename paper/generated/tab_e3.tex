@@ -1,0 +1,23 @@
+\begin{table*}[!t]
+\centering
+\scriptsize
+\caption{Class-imbalance strategies (full feature set, soft voting; resampling inside training folds only). Calibration slope: ideal 1; $>$1 means under-confident probabilities.}
+\label{tab:e3}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lcccccc}
+\toprule
+Imbalance strategy & AUC & Sens. & Spec. & Brier & Cal.\ slope & $\Delta$AUC [95\% CI] \\
+\midrule
+SMOTE after features (paper) & 0.902 & 0.773 & 0.867 & 0.127 & 1.37 & -- \\
+No correction & 0.900 & 0.763 & 0.895 & 0.128 & 1.41 & -0.002 [-0.009, +0.006] \\
+Class weighting (no resampling) & 0.901 & 0.768 & 0.882 & 0.127 & 1.42 & -0.001 [-0.007, +0.005] \\
+Random oversampling & 0.897 & 0.771 & 0.867 & 0.129 & 1.40 & -0.005 [-0.013, +0.003] \\
+SMOTE on raw rows $\rightarrow$ derive proxy & 0.899 & 0.774 & 0.867 & 0.128 & 1.36 & -0.003 [-0.010, +0.005] \\
+SMOTE-NC on raw rows $\rightarrow$ derive proxy & 0.900 & 0.771 & 0.872 & 0.128 & 1.37 & -0.002 [-0.009, +0.005] \\
+Borderline-SMOTE & 0.900 & 0.789 & 0.851 & 0.129 & 1.39 & -0.001 [-0.010, +0.008] \\
+ADASYN & 0.903 & 0.779 & 0.868 & 0.126 & 1.45 & +0.001 [-0.006, +0.008] \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}

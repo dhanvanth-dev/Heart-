@@ -1,0 +1,25 @@
+\begin{table}[!t]
+\centering
+\scriptsize
+\caption{Top-10 features by mean $|$SHAP$|$ over 50 folds, with rank stability and permutation importance (AUC drop).}
+\label{tab:shaptop}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{llcccc}
+\toprule
+Feature & Block & Mean $|$SHAP$|$ & Median rank (IQR) & Top-5 & Perm.\ imp. \\
+\midrule
+cp & clinical & 0.515 & 2 (1--2) & 100\% & 0.0344 \\
+ca & clinical & 0.498 & 2 (1--3) & 100\% & 0.0524 \\
+thal & clinical & 0.453 & 3 (2--3) & 100\% & 0.0354 \\
+ischaemia\_score & ECG-proxy & 0.162 & 4 (4--5) & 92\% & 0.0037 \\
+sex & clinical & 0.119 & 6 (5--7) & 50\% & 0.0101 \\
+age & clinical & 0.098 & 7 (5--8) & 28\% & 0.0043 \\
+oldpeak\_per\_thalach & ECG-proxy & 0.093 & 7 (6--8) & 22\% & 0.0043 \\
+hr\_reserve & ECG-proxy & 0.065 & 9 (8--11) & 2\% & 0.0002 \\
+thalach\_per\_slope & ECG-proxy & 0.054 & 11 (9--14) & 2\% & -0.0018 \\
+hr\_reserve\_pct & ECG-proxy & 0.052 & 11 (9--13) & 0\% & -0.0007 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

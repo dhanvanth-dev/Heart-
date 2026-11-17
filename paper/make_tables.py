@@ -46,11 +46,11 @@ def pfmt(p):
 def write_table(fname, header, rows, colspec, caption, label, star=False, size='\\scriptsize', note=None):
     env = 'table*' if star else 'table'
     lines = [f'\\begin{{{env}}}[!t]', '\\centering', size, f'\\caption{{{caption}}}', f'\\label{{{label}}}',
-             '\\setlength{\\tabcolsep}{3pt}', f'\\begin{{tabular}}{{{colspec}}}', '\\toprule',
+             '\\setlength{\\tabcolsep}{3pt}', '\\begin{adjustbox}{max width=\\linewidth}', f'\\begin{{tabular}}{{{colspec}}}', '\\toprule',
              ' & '.join(header) + ' \\\\', '\\midrule']
     for r in rows:
         lines.append('\\midrule' if r == 'MIDRULE' else ' & '.join(r) + ' \\\\')
-    lines += ['\\bottomrule', '\\end{tabular}']
+    lines += ['\\bottomrule', '\\end{tabular}', '\\end{adjustbox}']
     if note:
         lines.append(f'\\\\[2pt]\\parbox{{\\linewidth}}{{\\tiny {note}}}')
     lines.append(f'\\end{{{env}}}')
@@ -145,7 +145,7 @@ rows = [[tex(v), ci(r.AUC, r.AUC_lo, r.AUC_hi), f'{r.Accuracy:.3f}',
          '--' if v == REF else ci(r['ΔAUC'], r['ΔAUC_lo'], r['ΔAUC_hi'], sign=True),
          '--' if v == REF else pfmt(r.p_AUC_holm)] for v, r in e2.iterrows()]
 write_table('tab_e2.tex', ['Feature set (soft voting, SMOTE)', 'AUC [95\\% CI]', 'Acc.', '$\\Delta$AUC vs full', '$p_{\\mathrm{Holm}}$'],
-            rows, 'lcccc', 'Control experiments: is the ECG-proxy block better than other added features?', 'tab:e2')
+            rows, 'lcccc', 'Control experiments: is the ECG-proxy block better than other added features?', 'tab:e2', star=True)
 for key, name in (('Clinical + 18 Gaussian-noise features', 'Noise'),
                   ('Clinical + 18 engineered non-ECG features', 'NonEcg'),
                   ('Clinical + row-shuffled ECG-proxy block', 'Shuffled')):
@@ -161,7 +161,7 @@ rows = [[tex(v.replace('Full system (clinical + ECG-proxy, SMOTE, soft voting)',
          '--' if v == REF else ci(r['ΔAUC'], r['ΔAUC_lo'], r['ΔAUC_hi'], sign=True)] for v, r in e3.iterrows()]
 write_table('tab_e3.tex', ['Imbalance strategy', 'AUC', 'Sens.', 'Spec.', 'Brier', 'Cal.\\ slope', '$\\Delta$AUC [95\\% CI]'],
             rows, 'lcccccc', 'Class-imbalance strategies (full feature set, soft voting; resampling inside training folds only). '
-            'Calibration slope: ideal 1; $>$1 means under-confident probabilities.', 'tab:e3')
+            'Calibration slope: ideal 1; $>$1 means under-confident probabilities.', 'tab:e3', star=True)
 real = read('E3_smote_realism.csv').iloc[0]
 macro('smoteNonInt', tex(real['Rows with non-integer categorical codes']))
 macro('smoteInconsistent', tex(real['Rows where oldpeak_sq ≠ oldpeak² (>5%)']))
@@ -176,7 +176,7 @@ write_table('tab_counts.tex', ['Partition', 'Train (H/D)', 'After SMOTE', 'Test 
 e4 = read('E4_protocol_leakage.csv', index_col=0)
 write_table('tab_e4.tex', ['Protocol', 'AUC [95\\% CI]', 'Accuracy [95\\% CI]', 'Sensitivity [95\\% CI]'],
             [[tex(v), r.AUC, r.Accuracy, r.Sensitivity] for v, r in e4.iterrows()], 'lccc',
-            'Leakage and tuning protocol (5$\\times$10-fold CV). Leaky rows are shown only to quantify the bias.', 'tab:e4')
+            'Leakage and tuning protocol (5$\\times$10-fold CV). Leaky rows are shown only to quantify the bias.', 'tab:e4', star=True)
 lk = e4.loc['Leaky (b): SMOTE before CV', 'AUC'].split()[0]
 macro('leakSmoteAUC', lk)
 macro('leakPreAUC', e4.loc['Leaky (a): preprocessing fitted on all rows', 'AUC'].split()[0])
@@ -187,7 +187,7 @@ ho = read('E4_holdout_sensitivity.csv', index_col=0)
 write_table('tab_holdout.tex', ['Metric', 'Mean (2.5--97.5\\%) over random 80/20 splits', 'Seed 42', 'Pct.'],
             [[tex(m), tex(r.iloc[0]), tex(r.iloc[1]), tex(r.iloc[2])] for m, r in ho.iterrows()], 'lccc',
             'Sensitivity of the 61-patient hold-out estimate to the random split (leak-free pipeline). '
-            '``Pct.'' is the percentile of the seed-42 split used in the v4 paper.', 'tab:holdout')
+            '``Pct.'' is the percentile of the seed-42 split used in the v4 paper.', 'tab:holdout', star=True)
 macro('hoN', re.search(r'Over (\d+)', ho.columns[0]).group(1))
 for m, name in (('Fused accuracy', 'FuAcc'), ('Clinical accuracy', 'ClAcc'), ('Fused − clinical accuracy', 'DAcc'),
                 ('Fused AUC', 'FuAUC'), ('Fused − clinical AUC', 'DAUC')):
@@ -223,7 +223,7 @@ e6 = read('E6_encoding_calibration.csv', index_col=0)
 write_table('tab_e6.tex', ['Variant', 'AUC', 'Brier', 'Cal.\\ slope', '$\\Delta$AUC [95\\% CI]'],
             [[tex(v), f'{r.AUC:.3f}', f'{r.Brier:.3f}', f'{r.CalSlope:.2f}',
               '--' if v == REF else ci(r['ΔAUC'], r['ΔAUC_lo'], r['ΔAUC_hi'], sign=True)] for v, r in e6.iterrows()],
-            'lcccc', 'Ordinal versus one-hot encoding and probability calibration.', 'tab:e6')
+            'lcccc', 'Ordinal versus one-hot encoding and probability calibration.', 'tab:e6', star=True)
 for key, name in (('Isotonic-calibrated soft voting', 'Iso'), ('Platt-calibrated soft voting', 'Platt'),
                   ('One-hot cp/restecg/slope/thal (full system)', 'Onehot')):
     macro(f'cal{name}Slope', f'{e6.loc[key].CalSlope:.2f}'); macro(f'cal{name}Brier', f'{e6.loc[key].Brier:.3f}')
@@ -275,7 +275,7 @@ write_table('tab_e9.tex', ['Model (3$\\times$10-fold CV)', 'AUC [95\\% CI]', 'Ac
             [[tex(v), ci(r.AUC, r.AUC_lo, r.AUC_hi), f'{r.Accuracy:.3f}', f'{r.Sensitivity:.3f}',
               '--' if v == ref9 else ci(r['ΔAUC'], r['ΔAUC_lo'], r['ΔAUC_hi'], sign=True)] for v, r in e9.iterrows()],
             'lcccc', 'Dual-branch networks with and without cross-attention (identical preprocessing, SMOTE and training budget).',
-            'tab:e9')
+            'tab:e9', star=True)
 macro('xattnAUC', f'{e9.loc[ref9].AUC:.3f}')
 macro('concatAUC', f'{e9.loc["DL: dual branch + concatenation"].AUC:.3f}')
 macro('linearAUC', f'{e9.loc["DL: dual branch + linear layer (≡ L=1 attention)"].AUC:.3f}')
@@ -292,7 +292,7 @@ if os.path.exists(os.path.join(TAB, 'E10_ptbxl_branch.csv')):
                 [[tex(v.replace('[ECG] ', '')), ci(r.AUC, r.AUC_lo, r.AUC_hi), f'{r.Accuracy:.3f}',
                   '--' if v == ref10 else ci(r['ΔAUC'], r['ΔAUC_lo'], r['ΔAUC_hi'], sign=True),
                   '--' if v == ref10 else pfmt(r.p_AUC_holm)] for v, r in e10.iterrows()], 'lcccc',
-                'PTB-XL ECG-branch (D2) ablation, 303 records, 5$\\times$10-fold CV.', 'tab:e10')
+                'PTB-XL ECG-branch (D2) ablation, 303 records, 5$\\times$10-fold CV.', 'tab:e10', star=True)
     macro('ecgRefAUC', f'{e10.loc[ref10].AUC:.3f}')
     for key, name in (('[ECG] 12-lead Minimal tsfresh (120 features)', 'TwelveMin'),
                       ('[ECG] Minimal tsfresh (10 features), Lead II', 'MinII'),

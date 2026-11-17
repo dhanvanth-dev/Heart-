@@ -1,0 +1,19 @@
+\begin{table}[!t]
+\centering
+\scriptsize
+\caption{Stability of TreeSHAP attributions (XGBoost member) across 50 CV folds and 10 seeds.}
+\label{tab:e8}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lc}
+\toprule
+Stability measure & Mean (2.5--97.5\%) \\
+\midrule
+Spearman $\rho$ of SHAP rankings, fold vs fold (all 36 features) & 0.898 (2.5--97.5\%: 0.808--0.953) \\
+Jaccard overlap of top-5 SHAP features, fold vs fold & 0.742 (2.5--97.5\%: 0.429--1.000) \\
+Spearman $\rho$ of SHAP rankings, seed vs seed (full data) & 0.949 (2.5--97.5\%: 0.925--0.976) \\
+Spearman $\rho$, SHAP vs permutation importance (same fold) & 0.270 (2.5--97.5\%: -0.273--0.761) \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

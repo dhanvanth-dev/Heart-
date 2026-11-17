@@ -16,6 +16,7 @@ SHAP~\cite{lundberg2017} is widely used for clinical models on structured data, 
 \caption{Literature summary and positioning of this work. Reported results are as published; protocols differ between studies and the figures are not directly comparable.}
 \label{tab:lit}
 \setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tabular}{p{2.6cm}p{2.2cm}p{3.2cm}p{3.0cm}p{5.6cm}}
 \toprule
 Study & Data & Technique & Reported result & Gap / relation to this work\\
@@ -34,4 +35,5 @@ Attia \emph{et al.}~\cite{attia2019} 2019 & ECG + demographics & AI-enabled ECG 
 \textbf{This work (v5)} & Cleveland + 3 external sites; PTB-XL (parallel) & Proxy-enhanced clinical features; soft voting; dual-branch DL; SHAP & AUC \fullAUC{} \fullAUCci{} (5$\times$10 CV); clinical-only \clinAUC{} & Proxy fusion and parallel ECG benchmarking (not paired fusion); full ablation with CIs, controls and external validation.\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table*}

@@ -1,0 +1,22 @@
+\begin{table*}[!t]
+\centering
+\scriptsize
+\caption{Ordinal versus one-hot encoding and probability calibration.}
+\label{tab:e6}
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lcccc}
+\toprule
+Variant & AUC & Brier & Cal.\ slope & $\Delta$AUC [95\% CI] \\
+\midrule
+Full system (clinical + ECG-proxy, SMOTE, soft voting) & 0.902 & 0.127 & 1.37 & -- \\
+One-hot cp/restecg/slope/thal (full system) & 0.903 & 0.127 & 1.39 & +0.002 [-0.007, +0.011] \\
+One-hot cp/restecg/slope/thal (clinical only) & 0.907 & 0.126 & 1.35 & +0.006 [-0.009, +0.020] \\
+Clinical only & 0.906 & 0.126 & 1.37 & +0.004 [-0.009, +0.017] \\
+Platt-calibrated soft voting & 0.900 & 0.125 & 1.13 & -0.001 [-0.006, +0.004] \\
+Isotonic-calibrated soft voting & 0.900 & 0.127 & 0.56 & -0.001 [-0.010, +0.008] \\
+$-$ SMOTE (no resampling) & 0.900 & 0.128 & 1.41 & -0.002 [-0.009, +0.006] \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
