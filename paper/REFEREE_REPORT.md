@@ -84,6 +84,7 @@ found in **my own v5 draft** and fixed:
 
 | Cell | Error | Effect on the paper |
 |---|---|---|
+| 35 | The hold-out row "Multimodal – XGB" used `m_xgb`, the model from the **last CV fold**, trained on ~90% of all 303 patients including most hold-out patients | Leakage: on re-execution this row shows hold-out AUC **0.998** (accuracy 0.984). It fed the v4 notebook's state-of-the-art table |
 | 35 | `cl_xgb_acc = cv_cl_acc`: the fused **soft-voting hold-out** accuracy minus the clinical **XGBoost 10-fold CV** accuracy | **This is the source of the "+7.04 pp fusion gain"**: different models and different protocols |
 | 26/28/30 | CV run on **already-SMOTEd** training data, so synthetic neighbours of test patients were in training | Optimistic baselines (v4 Table III, part of Table IV) |
 | 33 | Hyper-parameter search CV on SMOTEd data | Optimistic tuning scores |

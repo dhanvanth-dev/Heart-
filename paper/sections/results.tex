@@ -67,6 +67,7 @@ The v4 manuscript reported a ``+7.04 pp'' fusion gain. It was computed as the fu
 (i)~unimodal and fusion baselines, and the hyper-parameter search, were cross-validated on SMOTE-augmented data, so synthetic neighbours of test patients entered the training folds;
 (ii)~the ``downslope'' feature tested the code for a flat slope;
 (iii)~the cross-attention network described in v4 was not implemented (a clinical-only MLP was reported in its place);
-(iv)~one legacy ablation variant was identical to the full system; and
-(v)~several literature values and two references in v4 could not be matched to the cited sources.
+(iv)~one legacy ablation variant was identical to the full system;
+(v)~a ``hold-out'' XGBoost result was computed with the model from the last cross-validation fold, which had been trained on most of the hold-out patients (re-execution gives an implausible AUC of 0.998); and
+(vi)~several literature values and two references in v4 could not be matched to the cited sources.
 The corrected notebook was re-executed from start to finish.

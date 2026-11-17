@@ -71,6 +71,20 @@ FIXES = [
     (35, 'print(f"   Fusion gain (CV)           : +{(cv_acc_ensemble.mean() - cv_cl_acc)*100:.2f} pp")',
          'print(f"   (XGB vs soft voting are different models; see the same-model comparison above)")',
      'compared different models'),
+    # ── Hold-out row used the model from the LAST CV fold (trained on ~90% of all
+    #    303 patients, including most hold-out patients) -> AUC 0.998 leakage ──
+    (35, "comp_rows = [", TAG + "hold-out XGB must be fit on the training split only; v4 reused m_xgb\n"
+         "# from the last CV fold, which had seen most hold-out patients (leakage).\n"
+         "m_xgb_ho = XGBClassifier(**xgb_grid.best_params_, eval_metric='logloss', random_state=SEED, verbosity=0)\n"
+         "m_xgb_ho.fit(np.nan_to_num(Xfu_tr_sm), y_fu_sm)\n"
+         "comp_rows = [", 'hold-out leakage via CV-fold model'),
+    (35, "accuracy_score(y_te, m_xgb.predict(Xfu_te_clean))", "accuracy_score(y_te, m_xgb_ho.predict(Xfu_te_clean))", 'hold-out leakage'),
+    (35, "roc_auc_score(y_te, m_xgb.predict_proba(Xfu_te_clean)[:,1])", "roc_auc_score(y_te, m_xgb_ho.predict_proba(Xfu_te_clean)[:,1])", 'hold-out leakage'),
+    (35, "f1_score(y_te, m_xgb.predict(Xfu_te_clean))", "f1_score(y_te, m_xgb_ho.predict(Xfu_te_clean))", 'hold-out leakage'),
+    (42, 'print(f"  Difference    : +{(fu_scores.mean()-cl_scores.mean())*100:.2f} pp")',
+         'print(f"  Difference    : {(fu_scores.mean()-cl_scores.mean())*100:+.2f} pp")', 'sign formatting'),
+    (50, "print(f'  Multimodal XGB (fused)      :  Acc={acc_best:.4f}  AUC={auc_best:.4f}')",
+         "print(f'  Fused soft voting (same split):  Acc={acc_best:.4f}  AUC={auc_best:.4f}')", 'mislabelled model'),
     # ── Legacy single-split ablation: mislabelled variants, arbitrary target ─
     (37, "r['Variant'] = 'No Feature Engineering'; abl.append(r)",
          "r['Variant'] = 'Same features as full system (scaling check)'; abl.append(r)   " + TAG.strip() + " this matrix equals the full fused matrix",
