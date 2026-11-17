@@ -98,3 +98,29 @@ p-values. Run with `python experiments/run_ablation.py` (results are cached in
 - Subgroups: no subgroup benefits; AUC is lowest for symptomatic chest pain (0.80) and age ≥ 55 (0.85).
 - Calibration: soft voting is under-confident (slope 1.37); Platt scaling helps (1.13); isotonic over-corrects (0.56).
 - Ensemble: soft voting ≈ SVM alone ≈ logistic regression; it beats RF/GBM alone; hard voting is worse (−0.032).
+- PTB-XL ECG branch (D2): Lead II Efficient tsfresh AUC 0.819; V5 equal (0.819); Lead I 0.724, V1 0.752;
+  Minimal-10 features 0.666 (significant drop); adding 12-lead statistics to Lead II gives +0.004 (n.s.);
+  1,212 vs 303 records does not raise AUC (0.825 vs 0.823; only accuracy and CI width improve);
+  noisy recordings have AUC 0.780 vs 0.845 for clean ones.
+- Cross-attention (L = 1) is provably a linear map (attention weights all exactly 1, query has no effect). DL AUC:
+  L=1 attention 0.887 ≈ linear 0.885 ≈ concatenation 0.878; token-level attention 0.893 = clinical MLP 0.893.
+- SHAP: fold-to-fold ρ = 0.90, seed ρ = 0.95, SHAP vs permutation importance ρ = 0.27; cp/ca/thal are in the top 5 in
+  100% of folds; the proxy block receives ~25% of |SHAP| while adding 0 AUC (credit redistributed from oldpeak etc.).
+- External: Hungary 0.889, Switzerland 0.772, VA 0.709 (fused ≈ clinical everywhere). Sensitivity collapses because
+  missing ca/thal are imputed with "healthy" medians; training without them restores sensitivity to 0.77–0.85.
+- **Verdict (E11): none of the nine quantitative v4 claims is supported.** 94 configurations were evaluated.
+
+### 5. Deliverables
+- `notebook/MultiCardioFusion_IEEE_2_extended_ablation.ipynb`: the original notebook plus a revision note (cell 2),
+  notes in Sections 17 and 19, and the new **Section 17B** (executed, outputs embedded).
+  `notebook/extended_ablation_standalone.ipynb` has the same section on its own (runs without TF/PTB-XL for 17B-1…8).
+  Rebuild with `python tools/build_notebook.py`.
+- `paper/MultiCardioFusion_Revised_v5.pdf` (IEEEtran, 17 pages): retitled and reframed per reviewer row 0, new
+  Section VI (Extended Ablation Study, 10 subsections, 20+ tables generated from `results/`), and revised SHAP,
+  discussion and conclusion. Rebuild with `paper/build.sh`. Reviewer rows are mapped in `paper/RESPONSE_TO_REVIEWERS.md`.
+
+### 6. Open items for the author
+- Add the four reviewer-supplied XAI references (row 6). Their details were not in the action plan.
+- Extend Table I with the rigor columns (row 7). This needs facts from each cited paper.
+- Confirm reference [23] (replaced with the Lundberg et al. 2018 Nat. Biomed. Eng. paper).
+- Rotate the Kaggle API key that was in the notebook.

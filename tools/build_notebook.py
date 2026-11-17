@@ -94,7 +94,15 @@ def execute(nb):
     os.environ['MPLBACKEND'] = 'module://matplotlib_inline.backend_inline'
     NotebookClient(nb, timeout=7200, kernel_name='python3',
                    resources={'metadata': {'path': OUT_DIR}}).execute()
+    strip_stderr(nb)
     return nb
+
+
+def strip_stderr(nb):
+    """Drop stderr streams (TensorFlow start-up logs) from executed cells."""
+    for cell in nb.cells:
+        if cell.cell_type == 'code':
+            cell.outputs = [o for o in cell.outputs if not (o.output_type == 'stream' and o.get('name') == 'stderr')]
 
 
 def merge(executed):
@@ -108,7 +116,22 @@ def merge(executed):
     insert_at = 38                       # after the Section-17 ablation code cell
     new_cells = [copy.deepcopy(c) for c in executed.cells]
     nb.cells[insert_at:insert_at] = new_cells
+    nb.cells.insert(1, nbformat.v4.new_markdown_cell(REVISION_NOTE))
     return nb
+
+
+REVISION_NOTE = """> ### Revision note (v5): read Section 17B first
+> The abstract above describes the original (v4) analysis. Its headline numbers (">96% accuracy, AUC > 0.97",
+> later 0.9535 AUC / 88.52% accuracy, "+7.04 pp fusion gain") come from a single 61-patient hold-out split with
+> preprocessing fitted on all patients. **Section 17B** (inserted after Section 17) re-tests every claim under a
+> controlled, leakage-free protocol: 5×10 repeated CV, identical splits and tuning budget, corrected 95% CIs,
+> 94 configurations, external validation on three further hospitals, SHAP stability, cross-attention and PTB-XL ablations.
+>
+> Main results: full system AUC ≈ 0.90; clinical-only AUC ≈ 0.91; the ECG-proxy block gives **no** measurable gain
+> (ΔAUC CI includes 0) and performs like added noise; the seed-42 split is at the 95th percentile of 200 random splits.
+> Sections 18–25 are kept unchanged for transparency; notes in Sections 17 and 19 point to the new results.
+> The revised paper is `paper/MultiCardioFusion_Revised_v5.pdf`.
+"""
 
 
 if __name__ == '__main__':
