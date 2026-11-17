@@ -1,11 +1,10 @@
 """Insert the extended ablation (experiments/ablation/c*.py) into the notebook.
 
-1. Builds a stand-alone notebook from the cell files and executes it with
-   nbclient (cwd = notebook/, results cached in results/ablation), so the cells
-   are validated and their outputs (tables, figures) are captured.
-2. Copies the executed cells into the original notebook as Section 17B, right
-   after the original single-split ablation (Section 17), and adds notes that
-   point the legacy cells to the new results.
+1. Runs tools/fix_original_notebook.py (code/text corrections to the v4 notebook).
+2. Inserts the extended ablation cells as Section 17B after Section 17, plus
+   revision notes.
+3. Executes the WHOLE notebook top to bottom with nbclient (cwd = notebook/,
+   ablation results cached in results/ablation), so every output matches the code.
 
 Usage (repository root):  python tools/build_notebook.py [--no-exec]
 """
@@ -18,7 +17,7 @@ import nbformat
 from nbclient import NotebookClient
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC_NB = os.path.join(ROOT, 'original', 'MultiCardioFusion_IEEE_1.ipynb')
+SRC_NB = os.path.join(ROOT, 'notebook', '_fixed_base.ipynb')   # produced by tools/fix_original_notebook.py
 OUT_DIR = os.path.join(ROOT, 'notebook')
 OUT_NB = os.path.join(OUT_DIR, 'MultiCardioFusion_IEEE_2_extended_ablation.ipynb')
 STANDALONE = os.path.join(OUT_DIR, 'extended_ablation_standalone.ipynb')
@@ -107,10 +106,6 @@ def strip_stderr(nb):
 
 def merge(executed):
     nb = nbformat.read(SRC_NB, as_version=4)
-    for cell in nb.cells:                 # Colab writes 'metadata' on stream outputs (invalid in nbformat 4)
-        for out in cell.get('outputs', []):
-            if out.get('output_type') == 'stream':
-                out.pop('metadata', None)
     for idx, note in LEGACY_NOTES.items():
         nb.cells[idx].source = nb.cells[idx].source.rstrip() + note
     insert_at = 38                       # after the Section-17 ablation code cell
@@ -135,12 +130,17 @@ REVISION_NOTE = """> ### Revision note (v5): read Section 17B first
 
 
 if __name__ == '__main__':
+    import subprocess
     os.makedirs(OUT_DIR, exist_ok=True)
-    nb = build_standalone()
-    if '--no-exec' not in sys.argv:
-        nb = execute(nb)
-    nbformat.write(nb, STANDALONE)
-    full = merge(nb)
+    subprocess.check_call([sys.executable, os.path.join(ROOT, 'tools', 'fix_original_notebook.py')])
+    full = merge(build_standalone())          # corrected original + Section 17B (unexecuted)
     nbformat.validate(full)
+    if '--no-exec' not in sys.argv:
+        full = execute(full)                  # execute the WHOLE notebook top to bottom
     nbformat.write(full, OUT_NB)
-    print(f'wrote {STANDALONE}\nwrote {OUT_NB} ({len(full.cells)} cells)')
+    # stand-alone copy of Section 17B with the outputs of the full run
+    start = next(i for i, c in enumerate(full.cells) if c.source.startswith('## 17B.'))
+    end = next(i for i, c in enumerate(full.cells) if c.source.startswith('## 18.'))
+    sa = nbformat.v4.new_notebook(); sa.metadata = full.metadata; sa.cells = full.cells[start:end]
+    nbformat.write(sa, STANDALONE)
+    print(f'wrote {OUT_NB} ({len(full.cells)} cells) and {STANDALONE}')

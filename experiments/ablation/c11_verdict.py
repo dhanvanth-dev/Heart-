@@ -47,7 +47,7 @@ if 'ext' in globals():
     a = ext.xs('Fused (full system)', level='Model')['AUC']
     extra.append({'Claim in v4 paper': 'Performance generalises beyond Cleveland', 'Paper value': '(not tested)',
                   'Controlled estimate [95% CI]': ', '.join(f'{s} AUC={v:.3f}' for s, v in a.items()),
-                  'p': '—', 'Verdict': 'See 17B-7 (lower AUC; fused ≈ clinical)'})
+                  'p': '—', 'Verdict': 'Lower AUC at all external sites; fused ≈ clinical'})
 if 'ho' in globals():
     extra.append({'Claim in v4 paper': 'Hold-out accuracy 88.52% is representative', 'Paper value': '0.8852 (seed 42)',
                   'Controlled estimate [95% CI]': f'{ho.fused_Acc.mean():.3f} over {len(ho)} splits '

@@ -62,3 +62,11 @@ Tuned XGB, clinical vs.\ fused & 10-fold CV (303) & 0.815 vs.\ 0.815 & -- & --\\
 
 \subsection{What the v4 Numbers Do and Do Not Show}
 The v4 manuscript reported a ``+7.04 pp'' fusion gain. It was computed as the fused model's \emph{hold-out} accuracy (0.8852) minus the clinical XGBoost's \emph{10-fold CV} accuracy (0.8148), two numbers obtained under different protocols. Under the same protocol the v4 notebook itself found identical CV accuracy for clinical and fused XGBoost (0.8148 vs.\ 0.8148; paired $t=0$, $p=1.00$; McNemar $\chi^2=0.125$, $p=0.72$). Section~VI re-examines this and every other component claim under one controlled protocol.
+
+\textbf{Corrections to the v4 code and references.} Review of the v4 notebook found further errors, all corrected in the released code and documented in the repository:
+(i)~unimodal and fusion baselines, and the hyper-parameter search, were cross-validated on SMOTE-augmented data, so synthetic neighbours of test patients entered the training folds;
+(ii)~the ``downslope'' feature tested the code for a flat slope;
+(iii)~the cross-attention network described in v4 was not implemented (a clinical-only MLP was reported in its place);
+(iv)~one legacy ablation variant was identical to the full system; and
+(v)~several literature values and two references in v4 could not be matched to the cited sources.
+The corrected notebook was re-executed from start to finish.
