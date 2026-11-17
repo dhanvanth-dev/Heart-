@@ -64,14 +64,14 @@ Table~\ref{tab:mapping} maps each dataset to its rows, features, label and the m
 \label{tab:mapping}
 \setlength{\tabcolsep}{2pt}
 \begin{adjustbox}{max width=\linewidth}
-\begin{tabular}{p{1.3cm}p{0.7cm}p{1.5cm}p{1.4cm}p{2.7cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{2.55cm}}
 \toprule
 Dataset & Rows & Features & Label & Used for / models\\
 \midrule
 D1 Cleveland & 303 & 13 clinical & CAD (num$>$0) & Clinical-only baseline; LR, SVM, RF, XGB, GBM, voting, MLP\\
 D3 Cleveland & 303 & 13 clinical + 23 ECG-proxy & CAD & Proposed system; all ablations (Sec.~VI-A--I)\\
-D2 PTB-XL & 303 (1,212) & 568 tsfresh (Lead II) & ECG normal/abnormal & Parallel ECG benchmark (Sec.~VI-J); not fused with D1/D3\\
-External & 294/123/200 & as D1/D3 & CAD & Test only (Sec.~VI-G)\\
+D2 PTB-XL & 303 (1,212) & 568 tsfresh (Lead II) & ECG normal vs.\ abnormal & Parallel ECG benchmark (Sec.~VI-J); not fused with D1/D3\\
+External & 294, 123, 200 & as D1/D3 & CAD & Test only (Sec.~VI-G)\\
 \bottomrule
 \end{tabular}
 \end{adjustbox}

@@ -9,5 +9,5 @@ Feature engineering contributes,AUC −0.005 without it,"-0.003 [-0.023, +0.018]
 ECG-proxy block beats an equal-size non-ECG block,(implied),"-0.002 [-0.020, +0.016]",0.843,Not supported (CI includes 0)
 Cross-attention improves the dual-branch network,(implied by MCF-BiModNet),"+0.009 [-0.012, +0.030]",0.398,Not supported (CI includes 0)
 SHAP ranking is a stable basis for clinical interpretation,"thal, ca, cp, oldpeak dominate",fold-to-fold Spearman ρ = 0.90; top-5 Jaccard = 0.74,—,"Partly supported (top features stable, tail unstable)"
-Performance generalises beyond Cleveland,(not tested),"Hungary AUC=0.889, Switzerland AUC=0.772, VA Long Beach AUC=0.709",—,See 17B-7 (lower AUC; fused ≈ clinical)
+Performance generalises beyond Cleveland,(not tested),"Hungary AUC=0.889, Switzerland AUC=0.772, VA Long Beach AUC=0.709",—,Lower AUC at all external sites; fused ≈ clinical
 Hold-out accuracy 88.52% is representative,0.8852 (seed 42),0.833 over 200 splits (seed 42 = 95th pct),—,Optimistic single split

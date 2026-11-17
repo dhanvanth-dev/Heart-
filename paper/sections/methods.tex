@@ -1,6 +1,6 @@
 \section{Proposed Methodology}
 \subsection{Pipeline Overview}
-Fig.~\ref{fig:pipeline} shows the MultiCardioFusion pipeline. The clinical table (D1) is enriched with ECG-proxy features derived from the same patients' exercise-ECG measurements (D3, Section~IV-D). Feature fusion with tree ensembles, a soft-voting ensemble and dual-branch neural networks are then trained and compared, and TreeSHAP explains the XGBoost member \emph{post hoc}. The PTB-XL branch (D2) is trained and evaluated separately with its own labels (Table~\ref{tab:mapping}).
+Fig.~\ref{fig:pipeline} shows the MultiCardioFusion pipeline. The clinical table (D1) is enriched with ECG-proxy features derived from the same patients' resting-ECG and exercise-test measurements (D3, Section~IV-D). Feature fusion with tree ensembles, a soft-voting ensemble and dual-branch neural networks are then trained and compared, and TreeSHAP explains the XGBoost member \emph{post hoc}. The PTB-XL branch (D2) is trained and evaluated separately with its own labels (Table~\ref{tab:mapping}).
 
 \begin{figure}[!t]
 \centering

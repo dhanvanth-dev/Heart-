@@ -124,3 +124,31 @@ p-values. Run with `python experiments/run_ablation.py` (results are cached in
 - Extend Table I with the rigor columns (row 7). This needs facts from each cited paper.
 - Confirm reference [23] (replaced with the Lundberg et al. 2018 Nat. Biomed. Eng. paper).
 - Rotate the Kaggle API key that was in the notebook.
+
+### 7. Fact-check as a journal referee (see `paper/REFEREE_REPORT.md`)
+- **Citations** were checked against the published papers and indexing records.
+  - **Corrected:** Arabasadi (Z-Alizadeh Sani dataset, 93.85%), Mohan (88.7%), Latha & Jeeva (85.48%),
+    Haq (89% with LR + Relief; "AUC 0.950" unsupported) and Attia (ECG-only, LV dysfunction).
+  - **Removed:** Khan (not PTB-XL), Zhang 2022 and Bi 2021 (could not be found), Hossain 2023 (wrong authors and
+    journal; replaced by Kligfield 2007), and 9 uncited entries.
+  - **Added:** Hanley & McNeil, Riley 2020, TRIPOD+AI, the PTB-XL v1.0.3 DOI, scikit-learn, imbalanced-learn and
+    FT-Transformer.
+- **Overclaims in my own v5 draft were fixed:**
+  - Non-significant ensemble effects were described as real.
+  - The calibration claim did not match the results.
+  - The SHAP dependence description was wrong for `ca` and `thal`.
+  - The provenance of `ca` and `thal` was overstated.
+  - The model is now stated to be a post-test classifier that is not validated for clinical use.
+- **Errors in the original notebook** were fixed in `tools/fix_original_notebook.py` (40 patches), and the notebook
+  was re-executed end to end:
+  - the protocol-mismatched "+7.04 pp";
+  - cross-validation and hyper-parameter tuning on SMOTE-augmented data;
+  - **hold-out leakage** (a model from the last CV fold scored on the hold-out patients: AUC 0.998 → 0.931 once fixed);
+  - the downslope code;
+  - pandas imputation that silently did nothing;
+  - mislabelled models and ablation variants;
+  - unsupported literature claims in cells 44 and 51.
+- **Reproducibility:** all 94 configurations re-run from an empty cache give identical tables
+  (`paper/REPRODUCIBILITY.md`).
+- **Corrected notebook, same model, seed-42 split:** fused − clinical = +3.3 pp on the hold-out but −3.0 pp under
+  10-fold CV of the same patients.

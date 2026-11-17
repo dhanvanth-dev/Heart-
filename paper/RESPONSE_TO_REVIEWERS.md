@@ -25,7 +25,7 @@ Row numbers follow `original/multicardio_fusion_paper_draft.docx`. "§" refers t
 | 15 | Medium | Class-count table; recall/spec/Brier/calibration | **Done** | Table counts, §VI-C, §VI-F |
 | 17 | Medium | Discussion: protocol-aware comparison, clinical meaning, non-significant tests, RQ wrap-up | **Done** | §VIII |
 | 18 | Medium | Beeswarm, dependence, local TP/FN/FP/TN, stability, permutation importance | **Done** (dependence, local explanations, stability, permutation importance; the v4 beeswarm is in the notebook, §18) | §VII |
-| 19–21 | Minor | Formatting / tracking notes | Re-typeset in IEEEtran; v4 reference numbering [1]–[38] kept, new references appended from [39] | — |
+| 19–21 | Minor | Formatting / tracking notes | Re-typeset in IEEEtran. References renumbered after the fact-check removed fabricated, unverifiable and uncited entries (see `REFEREE_REPORT.md`) | — |
 
 ## Corrections to v4 found during the revision
 - The "+7.04 pp" fusion gain compared a hold-out score with a CV score; under one protocol the gain is 0.
@@ -33,7 +33,11 @@ Row numbers follow `original/multicardio_fusion_paper_draft.docx`. "§" refers t
 - Table IV labelled CV results as hold-out results, and its two "★" rows were the same model.
 - The v4 unimodal baselines were computed by CV on the SMOTE-augmented training set (synthetic rows in test folds).
 - The `downslope` proxy feature tested `slope == 2` (flat) instead of 3 (downsloping).
-- Reference [12] (Attia et al. 2019) is about left-ventricular dysfunction, not atrial-fibrillation screening.
+- Several v4 literature values and references were wrong or could not be found. The full list is in `REFEREE_REPORT.md` §1:
+  Arabasadi (different dataset), Mohan, Latha & Jeeva, Haq ("AUC 0.950" unsupported), Khan (not PTB-XL),
+  Zhang 2022 and Bi 2021 (not found), Hossain 2023 (wrong authors/journal), Attia (ECG-only, LV dysfunction).
+- The v4 notebook scored a "hold-out" XGBoost with the model from the last CV fold, which had seen most hold-out
+  patients (AUC 0.998 on re-execution).
 - Reference [23] was listed as a Lundberg et al. 2018 *npj Digit. Med.* sepsis paper. It was replaced with the
   Lundberg et al. 2018 *Nat. Biomed. Eng.* hypoxaemia paper. **Please confirm** which paper you intended.
 - A Kaggle API key was hard-coded in the notebook. It has been removed. **Rotate it.**

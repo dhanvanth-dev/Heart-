@@ -70,4 +70,4 @@ The v4 manuscript reported a ``+7.04 pp'' fusion gain. It was computed as the fu
 (iv)~one legacy ablation variant was identical to the full system;
 (v)~a ``hold-out'' XGBoost result was computed with the model from the last cross-validation fold, which had been trained on most of the hold-out patients (re-execution gives an implausible AUC of 0.998); and
 (vi)~several literature values and two references in v4 could not be matched to the cited sources.
-The corrected notebook was re-executed from start to finish.
+The corrected notebook was re-executed from start to finish. With the same tuned soft-voting model for both feature sets, it gives a fused$-$clinical accuracy difference of $+3.3$~pp on the seed-42 hold-out split but $-3.0$~pp under 10-fold CV of the same 303 patients. This illustrates how much a single 61-patient split can mislead.
