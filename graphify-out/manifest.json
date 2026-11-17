@@ -1,0 +1,134 @@
+{
+  "experiments/ablation/c00_setup.py": {
+    "mtime": 1794916615.6362298,
+    "seen": 1794919939.772981,
+    "ast_hash": "359958638ed04cf20887bb8ae1d1d0a0",
+    "semantic_hash": "359958638ed04cf20887bb8ae1d1d0a0"
+  },
+  "experiments/ablation/c01_component_ablation.py": {
+    "mtime": 1794915488.3323972,
+    "seen": 1794919939.7729874,
+    "ast_hash": "3addd294530df980f8e03ff439aafcf5",
+    "semantic_hash": "3addd294530df980f8e03ff439aafcf5"
+  },
+  "experiments/ablation/c02_controls.py": {
+    "mtime": 1794915504.8763976,
+    "seen": 1794919939.77299,
+    "ast_hash": "64efe79260a62cef1aadf6824c6e20be",
+    "semantic_hash": "64efe79260a62cef1aadf6824c6e20be"
+  },
+  "experiments/ablation/c03_resampling.py": {
+    "mtime": 1794915521.6323984,
+    "seen": 1794919939.7729912,
+    "ast_hash": "9043231f962f5a6f9de086f92b1e7165",
+    "semantic_hash": "9043231f962f5a6f9de086f92b1e7165"
+  },
+  "experiments/ablation/c04_protocol_leakage.py": {
+    "mtime": 1794915555.2963996,
+    "seen": 1794919939.772992,
+    "ast_hash": "3d87340f9d137ecb6d307e832f55dd84",
+    "semantic_hash": "3d87340f9d137ecb6d307e832f55dd84"
+  },
+  "experiments/ablation/c05_robustness.py": {
+    "mtime": 1794915607.5804014,
+    "seen": 1794919939.772993,
+    "ast_hash": "f27f5d3793eab71ee9dd4de7a259523a",
+    "semantic_hash": "f27f5d3793eab71ee9dd4de7a259523a"
+  },
+  "experiments/ablation/c06_encoding_calibration.py": {
+    "mtime": 1794915606.7284014,
+    "seen": 1794919939.7729938,
+    "ast_hash": "ae59fa7e7725d07b551ade4dc54eb66c",
+    "semantic_hash": "ae59fa7e7725d07b551ade4dc54eb66c"
+  },
+  "experiments/ablation/c07_external_validation.py": {
+    "mtime": 1794915633.1124022,
+    "seen": 1794919939.7729945,
+    "ast_hash": "1d1f6e3c3285f11d940882acbde63801",
+    "semantic_hash": "1d1f6e3c3285f11d940882acbde63801"
+  },
+  "experiments/ablation/c08_shap_stability.py": {
+    "mtime": 1794916876.6164467,
+    "seen": 1794919939.7729955,
+    "ast_hash": "9e74be90238c16acb42cd42bcc2d6eda",
+    "semantic_hash": "9e74be90238c16acb42cd42bcc2d6eda"
+  },
+  "experiments/ablation/c09_cross_attention.py": {
+    "mtime": 1794917186.2165306,
+    "seen": 1794919939.7729964,
+    "ast_hash": "912e5566ccde45c2dafb2faf44da52e2",
+    "semantic_hash": "912e5566ccde45c2dafb2faf44da52e2"
+  },
+  "experiments/ablation/c10_ptbxl_branch.py": {
+    "mtime": 1794916244.484424,
+    "seen": 1794919939.7729974,
+    "ast_hash": "922871b37322b71f560f9bec77e5f834",
+    "semantic_hash": "922871b37322b71f560f9bec77e5f834"
+  },
+  "experiments/ablation/c11_verdict.py": {
+    "mtime": 1794916335.1364274,
+    "seen": 1794919939.7729986,
+    "ast_hash": "4958fef9af18262f23b18b5c738d25d9",
+    "semantic_hash": "4958fef9af18262f23b18b5c738d25d9"
+  },
+  "experiments/run_ablation.py": {
+    "mtime": 1794916030.9226432,
+    "seen": 1794919939.7729993,
+    "ast_hash": "3f8d957e175e08e1187b9cff77dcd7ac",
+    "semantic_hash": "3f8d957e175e08e1187b9cff77dcd7ac"
+  },
+  "paper/build.sh": {
+    "mtime": 1794917056.140453,
+    "seen": 1794919939.773,
+    "ast_hash": "e5bde91d0ea680cdd6655e8a57561a3a",
+    "semantic_hash": "e5bde91d0ea680cdd6655e8a57561a3a"
+  },
+  "paper/make_tables.py": {
+    "mtime": 1794919530.7983556,
+    "seen": 1794919939.7730007,
+    "ast_hash": "b9cd69bcaccacedc13cb5c35e411338b",
+    "semantic_hash": "b9cd69bcaccacedc13cb5c35e411338b"
+  },
+  "tools/build_notebook.py": {
+    "mtime": 1794919698.4605477,
+    "seen": 1794919939.7730014,
+    "ast_hash": "63f7e175ff05a567dc58ac0c6bf1acf4",
+    "semantic_hash": "63f7e175ff05a567dc58ac0c6bf1acf4"
+  },
+  "README.md": {
+    "mtime": 1794915290.44039,
+    "seen": 1794919939.7730021,
+    "ast_hash": "adaca1fb1e4ec845371117b4c674bfbb",
+    "semantic_hash": "adaca1fb1e4ec845371117b4c674bfbb"
+  },
+  "WORKLOG.md": {
+    "mtime": 1794919715.8845484,
+    "seen": 1794919939.773003,
+    "ast_hash": "7236dcc9455059892ca6189e2331085b",
+    "semantic_hash": "7236dcc9455059892ca6189e2331085b"
+  },
+  "graphify-out/converted/multicardio_fusion_paper_draft_85d2d521.md": {
+    "mtime": 1794919730.15683,
+    "seen": 1794919939.773004,
+    "ast_hash": "7f98053d52c510e8a59385c3552dcf77",
+    "semantic_hash": "7f98053d52c510e8a59385c3552dcf77"
+  },
+  "requirements.txt": {
+    "mtime": 1794915296.9310002,
+    "seen": 1794919939.7730048,
+    "ast_hash": "6c163f3d9c254023f41d058ec53db1dd",
+    "semantic_hash": "6c163f3d9c254023f41d058ec53db1dd"
+  },
+  "paper/MultiCardioFusion_Revised_v5.pdf": {
+    "mtime": 1794919535.5905626,
+    "seen": 1794919939.7730057,
+    "ast_hash": "0479027adaab53a41752265c00908761",
+    "semantic_hash": "0479027adaab53a41752265c00908761"
+  },
+  "paper/RESPONSE_TO_REVIEWERS.md": {
+    "mtime": 1794917047.840453,
+    "seen": 1794919939.7730064,
+    "ast_hash": "b948c64552df88353cbf558955595958",
+    "semantic_hash": "b948c64552df88353cbf558955595958"
+  }
+}
