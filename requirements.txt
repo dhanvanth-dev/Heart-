@@ -1,0 +1,15 @@
+numpy
+pandas
+scipy
+scikit-learn>=1.4
+imbalanced-learn>=0.12
+xgboost>=2.0
+shap>=0.45
+matplotlib
+seaborn
+tensorflow-cpu>=2.16
+tsfresh
+wfdb
+ucimlrepo
+nbformat
+nbclient
