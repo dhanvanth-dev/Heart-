@@ -1,0 +1,29 @@
+\section{Introduction}
+Heart disease remains the leading cause of death worldwide~\cite{who2023}, which motivates automated tools for early detection. In practice, cardiologists combine several sources of evidence (blood tests, patient history, imaging and the electrocardiogram) before reaching a diagnosis. Most published machine-learning models for heart-disease prediction, however, use a single data source and therefore lack part of the clinical context that a diagnosis relies on.
+
+The field has developed along two largely separate lines. Structured tabular datasets such as the UCI Cleveland Heart Disease dataset have been the standard testbed for clinical-feature-based classification since Detrano \emph{et al.}~\cite{detrano1989}, with reported accuracies rising from 77\% for early logistic regression to over 93\% for ensemble and neural models~\cite{arabasadi2017,haq2018,mohan2019}. In parallel, large waveform datasets such as PTB-XL, with 21{,}837 ten-second 12-lead ECG recordings annotated by cardiologists~\cite{wagner2020}, have become the reference benchmark for ECG-based diagnosis. Pipelines that exploit both kinds of information while remaining interpretable are much less explored.
+
+\textbf{Three kinds of ``clinical + ECG'' studies.} Because the term \emph{multimodal} is used loosely in this literature, we distinguish three categories~\cite{huang2020fusion}:
+(i)~\emph{true patient-level multimodal fusion}, where clinical variables and ECG signals are recorded from the same patient at the same encounter;
+(ii)~\emph{proxy-feature fusion}, where ECG information is approximated by features derived from ECG-related variables already present in the clinical table; and
+(iii)~\emph{parallel ECG benchmarking}, where an ECG-only model is trained and evaluated on a separate cohort with its own labels.
+Cleveland and PTB-XL were collected at different institutions, in different decades, from different patients, so no Cleveland patient has a PTB-XL recording. This work therefore belongs to categories (ii) and (iii) and makes \emph{no claim of true patient-level fusion}.
+
+This manuscript is a revision of an earlier version (v4) that reported AUC $=0.9535$ and a $+7.04$ percentage-point accuracy gain from fusion. Those figures came from a single 61-patient hold-out split, with preprocessing fitted on all patients and no confidence intervals, and the gain compared a hold-out score with a cross-validation score. Following reviewer feedback, the central aim of this revision is to \emph{test} each claim under a controlled protocol rather than to report a single best number. We address four research questions:
+\begin{itemize}
+\item \textbf{RQ1:} Do ECG-proxy features improve discrimination over the 13 clinical variables alone?
+\item \textbf{RQ2:} Which pipeline components (feature groups, resampling, ensemble, cross-attention) contribute measurably?
+\item \textbf{RQ3:} How robust are the conclusions to leakage, the evaluation protocol, data perturbations and a change of hospital?
+\item \textbf{RQ4:} Are the SHAP explanations stable enough to support clinical interpretation?
+\end{itemize}
+
+The contributions of this work are:
+\begin{itemize}
+\item A \emph{leakage-aware ECG-proxy pipeline} in which imputation, feature derivation, scaling and resampling are all fitted inside training folds only.
+\item A \emph{controlled comparison} of clinical-only, ECG-proxy-only and proxy-enhanced models, and of feature fusion, soft and hard voting, stacking and dual-branch networks with and without cross-attention, all under identical splits and tuning budget.
+\item An \emph{extended ablation study} of \nVariants{} configurations: component removal with corrected confidence intervals, negative controls and a permutation test, six imbalance strategies, leakage and hold-out sensitivity analyses, 16 robustness and edge-case scenarios, subgroup analyses, external validation on three further hospitals, and a PTB-XL ECG-branch ablation.
+\item \emph{SHAP global and local interpretability} together with stability measurements across folds and seeds and agreement with permutation importance.
+\item An explicit, quantified account of the \emph{limitation of non-paired datasets} and of which v4 claims do and do not survive.
+\end{itemize}
+
+Section~II reviews related work. Section~III describes the datasets and Section~IV the methodology and evaluation protocol. Section~V reports baseline and fusion results, and Section~VI the extended ablation study. Section~VII discusses interpretability, Section~VIII the findings against the research questions, and Section~IX concludes.

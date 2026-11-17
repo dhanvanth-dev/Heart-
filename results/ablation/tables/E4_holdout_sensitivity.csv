@@ -1,0 +1,7 @@
+Metric,Over 200 random 80/20 splits,Seed 42 (paper split),Percentile of seed 42
+Fused accuracy,0.833 (2.5–97.5%: 0.754–0.918),0.902,95
+Clinical accuracy,0.831 (2.5–97.5%: 0.738–0.902),0.869,81
+Fused − clinical accuracy,0.002 (2.5–97.5%: -0.049–0.049),+0.033,90
+Fused AUC,0.904 (2.5–97.5%: 0.832–0.955),0.960,99
+Clinical AUC,0.911 (2.5–97.5%: 0.840–0.960),0.948,90
+Fused − clinical AUC,-0.007 (2.5–97.5%: -0.034–0.017),+0.012,94

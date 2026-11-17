@@ -1,0 +1,37 @@
+\section{Related Work and Baselines}
+\subsection{Clinical Feature-Based Cardiac Prediction}
+Prediction on the UCI Cleveland dataset has moved from early probabilistic scoring~\cite{detrano1989} to ensemble and deep-learning methods that report accuracies above 90\%~\cite{arabasadi2017,haq2018}. Notable results include the genetic-algorithm-optimised neural network of Arabasadi \emph{et al.}~\cite{arabasadi2017} (93.1\%), the hybrid HRFLM model of Mohan \emph{et al.}~\cite{mohan2019} (88.4\%) and the SVM with aggressive feature selection of Haq \emph{et al.}~\cite{haq2018} (AUC $=0.950$). A limitation shared by all of these studies is the small cohort ($N=303$): a 10-fold test fold holds about 30 patients, so accuracy estimates vary considerably between folds and their confidence intervals are wide. The 98.6\% accuracy reported by Gao \emph{et al.}~\cite{gao2021} with bagging and PCA should be interpreted with care, because threshold-independent metrics and details of the cross-validation and preprocessing protocol are not reported, which limits reproducibility. Section~VI-D shows that one common protocol error, oversampling before cross-validation, inflates AUC on this dataset.
+
+\subsection{ECG Signal Analysis}
+PTB-XL~\cite{wagner2020} enabled systematic benchmarking of ECG classifiers. Khan~\cite{khan2021} reported 90.5\% accuracy for detecting cardiac abnormalities, Hannun \emph{et al.}~\cite{hannun2019} achieved cardiologist-level arrhythmia classification from single-lead ambulatory ECGs with a 34-layer residual network, and Ribeiro \emph{et al.}~\cite{ribeiro2020} showed that a deep network on 12-lead ECGs reaches specialist-level diagnosis of six abnormalities. These studies differ from ours in two important ways: they use far larger training sets (tens of thousands to millions of recordings) and they predict \emph{ECG diagnostic statements}, not angiographically confirmed coronary artery disease. Accuracy figures are therefore not directly comparable across these tasks.
+
+\subsection{Multimodal and Cross-Modal Fusion}
+Multimodal fusion is widely seen as the next step in medical AI~\cite{litjens2017,huang2020fusion}. Attia \emph{et al.}~\cite{attia2019} combined ECG waveforms with demographic variables, and Zhang \emph{et al.}~\cite{zhang2022} combined continuous ECG with structured clinical data. Cross-attention~\cite{vaswani2017} is increasingly used to let one modality condition on another. \emph{True} multimodal fusion, however, requires that the modalities describe the same patient, visit or event~\cite{huang2020fusion}. When they do not, as with Cleveland and PTB-XL, a model can at best approximate one modality from the other (proxy fusion) or evaluate each modality separately (parallel benchmarking). MultiCardioFusion uses proxy-aligned fusion on Cleveland and parallel ECG benchmarking on PTB-XL (Section~I).
+
+\subsection{Explainability in Clinical AI}
+SHAP~\cite{lundberg2017} is widely used for clinical models on structured data, and TreeSHAP~\cite{lundberg2018tree} computes exact Shapley values for tree ensembles such as XGBoost efficiently. Several studies report that SHAP attributions agree with clinical knowledge~\cite{lundberg2018sepsis,bi2021}. Three caveats apply. First, SHAP values are \emph{post-hoc and associational}: they describe the model, not causal mechanisms in the patient~\cite{kumar2020problems}. Second, with small samples and correlated or duplicated features, attributions can be split arbitrarily between features and can change between training runs~\cite{molnar2022pitfalls}. Third, agreement with known risk factors is necessary but not sufficient evidence of validity, and attributions can be manipulated~\cite{slack2020fooling}. We therefore treat SHAP as a descriptive tool, quantify its stability (Section~VI-H), and propose clinician review as future validation.
+
+\begin{table*}[!t]
+\centering\scriptsize
+\caption{Literature summary and positioning of this work. Reported results are as published; protocols differ between studies and the figures are not directly comparable.}
+\label{tab:lit}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.6cm}p{2.2cm}p{3.2cm}p{3.0cm}p{5.6cm}}
+\toprule
+Study & Data & Technique & Reported result & Gap / relation to this work\\
+\midrule
+Detrano \emph{et al.}~\cite{detrano1989} 1989 & Cleveland (303) & Logistic regression & Acc.\ 77\% & No ML beyond LR; no explainability.\\
+Arabasadi \emph{et al.}~\cite{arabasadi2017} 2017 & Cleveland (303) & GA-optimised neural network & Acc.\ 93.1\% & No explainability; single modality.\\
+Haq \emph{et al.}~\cite{haq2018} 2018 & Cleveland (303) & SVM + feature selection & Acc.\ 91.7\%, AUC 0.950 & Clinical features only.\\
+Mohan \emph{et al.}~\cite{mohan2019} 2019 & Cleveland (303) & HRFLM (RF + linear) & Acc.\ 88.4\% & Single modality.\\
+Latha \& Jeeva~\cite{latha2019} 2019 & Cleveland (303) & Majority-voting ensemble & Acc.\ 89.1\% & No SHAP; no uncertainty estimates.\\
+Gao \emph{et al.}~\cite{gao2021} 2021 & Cleveland (303) & Bagging + PCA & Acc.\ 98.6\% & AUC and CV protocol not reported.\\
+Khan~\cite{khan2021} 2021 & PTB-XL & MDCNN on raw ECG & Acc.\ 90.5\% & ECG only; black-box CNN.\\
+Hannun \emph{et al.}~\cite{hannun2019} 2019 & Single-lead ECG & Deep ResNet & Cardiologist-level & No clinical variables; very large dataset.\\
+Ribeiro \emph{et al.}~\cite{ribeiro2020} 2020 & 12-lead ECG (2.3M) & Deep residual network & Specialist-level F1 & ECG diagnostic labels, not CAD.\\
+Attia \emph{et al.}~\cite{attia2019} 2019 & ECG + demographics & AI-enabled ECG & AUC 0.93 (LV dysfunction) & Demographics only; different task.\\
+\midrule
+\textbf{This work (v5)} & Cleveland + 3 external sites; PTB-XL (parallel) & Proxy-enhanced clinical features; soft voting; dual-branch DL; SHAP & AUC \fullAUC{} \fullAUCci{} (5$\times$10 CV); clinical-only \clinAUC{} & Proxy fusion and parallel ECG benchmarking (not paired fusion); full ablation with CIs, controls and external validation.\\
+\bottomrule
+\end{tabular}
+\end{table*}

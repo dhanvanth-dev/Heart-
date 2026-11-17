@@ -1,0 +1,77 @@
+\section{Extended Ablation Study}
+This section is new in the revision. All experiments use the protocol of Section~IV-G: raw data, all preprocessing inside training folds, identical splits and fixed hyper-parameters for every variant, paired differences with corrected 95\% CIs, and Holm-adjusted p-values. In total \nVariants{} configurations were evaluated. Code and all result tables are in the accompanying notebook (Section~17B) and repository.
+
+\input{generated/tab_e1.tex}
+
+\subsection{Component Ablation (RQ1, RQ2)}
+Table~\ref{tab:e1} and Fig.~\ref{fig:a1} remove one component at a time. Under leak-free repeated CV the full system reaches AUC \fullAUC{} \fullAUCci{}, accuracy \fullAcc{}, sensitivity \fullSens{} and specificity \fullSpec{}. These figures are clearly lower than the v4 hold-out values (0.9535, 0.8852, 0.9286).
+
+\textbf{ECG-proxy block.} Removing the entire proxy block (clinical only) changes AUC by \dClinAUC{} and accuracy by \dClinAcc{}~pp; the clinical-only system is numerically \emph{slightly better}. No individual feature group (polynomial, interaction, log, ratio, threshold, HR-reserve, ischaemia composite or the duplicated raw columns) changes AUC by more than \engMaxAbs{}. Correcting the ``downslope'' coding has no measurable effect. On its own, the proxy block is informative but clearly weaker than the clinical variables (proxy-only $\Delta$AUC \dProxyOnlyAUC{}, $p_{\text{Holm}}=\pProxyOnly{}$).
+
+\textbf{SMOTE.} Removing SMOTE changes AUC by \dNoSmoteAUC{} and accuracy by \dNoSmoteAcc{}~pp. The v4 claim that SMOTE removal causes the largest drop (``$\approx$3.3\%'') is not reproduced. Without resampling, specificity rises (\noSmoteSpec{}) and sensitivity falls slightly (\noSmoteSens{}), as expected when the training prior is no longer artificially balanced.
+
+\textbf{Ensemble.} Soft voting outperforms its weakest members: random forest alone ($\Delta$AUC \dRfOnlyAUC{}) and GBM alone (\dGbmOnlyAUC{}). It does not outperform an RBF-SVM alone (\dSvmOnlyAUC{}) or plain logistic regression (\dLRAUC{}). Hard voting is clearly worse (\dHardAUC{}) because it discards probability information, and stacking matches soft voting (\dStackAUC{}). A clinical-only logistic regression without any resampling reaches AUC \clinLRAUCval{} ($\Delta$ \dClinLRAUC{}), statistically indistinguishable from the full system.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA1_component_ablation.png}
+\caption{Component ablation: paired $\Delta$AUC versus the full system with 95\% corrected CIs (grey = not significant after Holm correction).}
+\label{fig:a1}
+\end{figure}
+
+\subsection{Control Experiments}
+If the proxy block carried information beyond the clinical variables, it should outperform equally sized blocks of irrelevant features. Table~\ref{tab:e2} shows that it does not. Clinical + 18 engineered \emph{non-ECG} features (cholesterol, blood pressure and age transforms) reach AUC \nonecgAUC{}, clinical + 18 pure \emph{Gaussian-noise} columns \noiseAUC{}, and clinical + a \emph{row-shuffled} proxy block \shuffledAUC{}, all within the CI of the full system. This is expected: the proxy features are deterministic functions of variables the classifiers already see, and tree ensembles and RBF-SVMs can represent such products and ratios themselves. A label-permutation test confirms that the full system learns real signal (observed AUC \permObs{} versus \permNull{}$\pm$\permNullSd{} under \permN{} permutations, $p=\permP{}$, the smallest value attainable with \permN{} permutations).
+
+\input{generated/tab_e2.tex}
+
+\subsection{Class-Imbalance Strategies}
+Cleveland is only mildly imbalanced (54.1\%/45.9\%), and Table~\ref{tab:e3} shows that the choice of strategy hardly matters: no correction, class weighting, random oversampling, SMOTE after or before feature derivation, SMOTE-NC~\cite{chawla2002}, Borderline-SMOTE~\cite{han2005borderline} and ADASYN~\cite{he2008adasyn} all lie within $\pm$0.005 AUC of each other, with no significant differences. SMOTE does, however, create implausible patients: in a typical training fold \smoteNonInt{} of synthetic rows carry non-integer categorical codes (e.g.\ chest-pain type 2.6), and when SMOTE is applied after feature derivation \smoteInconsistent{} of synthetic rows have oldpeak$^2$ differing from the square of their oldpeak by more than 5\%. Because it brings no measurable benefit here, we recommend class weighting or no correction for this dataset, and SMOTE-NC on raw rows where oversampling is required. Table~\ref{tab:counts} gives the class counts per partition.
+
+\input{generated/tab_e3.tex}
+\input{generated/tab_counts.tex}
+
+\subsection{Evaluation Protocol and Leakage}
+Table~\ref{tab:e4} quantifies protocol choices. Fitting imputation and scaling on all 303 patients (as in v4) has negligible effect here (AUC \leakPreAUC{}), because only six values are missing and the scaler's statistics hardly change. Applying SMOTE \emph{before} cross-validation, however, inflates AUC to \leakSmoteAUC{}, because synthetic neighbours of test patients enter the training folds. This is the kind of error that can explain implausibly high accuracies in the literature. Fully nested tuning of XGBoost (AUC \nestedAUC{}) performs similarly to the fixed Section-15 parameters (\fixedXgbAUC{}) and better than library defaults (\defaultXgbAUC{}), so the fixed parameters introduce no detectable optimism.
+
+\input{generated/tab_e4.tex}
+
+\textbf{Hold-out sensitivity.} The v4 headline numbers come from one 80/20 split (seed 42). Repeating the identical leak-free pipeline on \hoN{} random 80/20 splits (Table~\ref{tab:holdout}, Fig.~\ref{fig:a3}) gives a mean fused accuracy of \hoFuAcc{}, while seed 42 gives \hoFuAccSeed{}, the \hoFuAccPct{}th percentile. For fused AUC, seed 42 lies at the \hoFuAUCPct{}th percentile. The fused$-$clinical accuracy difference averages \hoDAcc{} across splits, so a single favourable split can produce an apparent gain of several points by chance. Single 61-patient hold-out results on this dataset should therefore always be accompanied by repeated-split or repeated-CV estimates.
+
+\input{generated/tab_holdout.tex}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA3_holdout_sensitivity.png}
+\caption{Distribution of hold-out accuracy and AUC over \hoN{} random 80/20 splits; dashed lines mark the seed-42 split used in v4.}
+\label{fig:a3}
+\end{figure}
+
+\subsection{Robustness and Edge Cases (RQ3)}
+A proxy block could still be useful in harder conditions even if it adds nothing on clean data. Table~\ref{tab:e5} and Fig.~\ref{fig:a4} apply 16 perturbations identically to the fused and clinical-only systems: training label noise (5--20\%), missing values at test time or in both training and test data (10--30\%, MCAR), Gaussian measurement noise (0.25--1~SD), reduced training sets (25--75\%), and clinically motivated missing modalities. Across all scenarios $\Delta$AUC lies between \robMinD{} and \robMaxD{}, and \robNsig{} of \robN{} comparisons are significant after Holm correction. The proxy block does not make the model more robust to label noise (20\% noise: \robNoiseFu{} vs.\ \robNoiseCl{}) or to small training sets (25\%: \robSmallFu{} vs.\ \robSmallCl{}). The most clinically relevant edge case is a patient without angiography or a thallium scan (\texttt{ca}, \texttt{thal} unavailable), where ECG-derived information might be expected to matter most. Even there the fused and clinical systems perform equally (\robNoAngioFu{} vs.\ \robNoAngioCl{}; $\Delta$ \robNoAngioD{}). Removing the exercise test costs little (AUC \robNoExFu{}), whereas resting data alone (no exercise test, no angiography or thallium) drops AUC to \robRestFu{}. This identifies \texttt{ca}, \texttt{thal} and \texttt{cp} as the dominant information sources.
+
+\input{generated/tab_e5.tex}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figA4_robustness.png}
+\caption{Fused minus clinical-only $\Delta$AUC under each perturbation (3$\times$10-fold CV, paired).}
+\label{fig:a4}
+\end{figure}
+
+\textbf{Subgroups.} Table~\ref{tab:subgroups} reports out-of-fold performance by sex, age, chest-pain type and resting ECG. The proxy block does not significantly help any subgroup; every subgroup $\Delta$AUC CI includes zero. Discrimination is similar in women and men but clearly lower in patients aged $\geq$55 years than in younger patients, and lowest in patients with symptomatic chest pain (cp~1--3), where CAD is less prevalent and the dominant predictor \texttt{cp} carries less information. These are the groups in which the model would most need improvement before clinical use.
+
+\input{generated/tab_subgroups.tex}
+
+\subsection{Ordinal Encoding and Calibration}
+One-hot coding of \texttt{cp}, \texttt{restecg}, \texttt{slope} and \texttt{thal} gives AUC \calOnehotAUC{} for the full system (Table~\ref{tab:e6}), no different from ordinal coding, because the dominant tree and RBF members are insensitive to the coding. Calibration matters more for clinical use than a third decimal of AUC~\cite{vancalster2019}. The soft-voting ensemble has a calibration slope of \calFull{}: its probabilities are \emph{under-confident}, compressed towards 0.5 by averaging. The Brier score is \brierFull{}. Platt scaling moves the slope towards 1 (\calPlattSlope{}; Brier \calPlattBrier{}) without changing discrimination. Isotonic regression over-corrects (slope \calIsoSlope{}, i.e.\ over-confident; Brier \calIsoBrier{}), as is typical when a non-parametric calibrator is fitted on about 240 patients (Fig.~\ref{fig:a5}). Platt scaling is therefore the recommended calibration for this cohort size. Equal voting weights are adequate: learned weights (stacking) give the same AUC.
+
+\input{generated/tab_e6.tex}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.85\linewidth]{figA5_calibration.png}
+\caption{Reliability diagram of out-of-fold probabilities (repeat 1).}
+\label{fig:a5}
+\end{figure}
+
+\input{sections/ablation_part2}

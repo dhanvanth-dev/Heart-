@@ -1,0 +1,3 @@
+Dataset,Train (healthy/disease),Train after SMOTE,Test (healthy/disease)
+D1/D3 Cleveland (80/20 hold-out),131/111,131/131,33/28
+D1/D3 Cleveland (one 10-fold CV fold),147/125,147/147,17/14

@@ -59,3 +59,42 @@ These shape the ablation design; each one is tested explicitly.
    "Soft-Voting" rows are identical.
 8. Class counts: 164 healthy (54.1%) / 139 disease (45.9%); the paper text assigns the
    percentages the other way round.
+
+### 3. Extended ablation suite (`experiments/ablation/c00`–`c11`)
+Protocol (identical for every variant): raw UCI Cleveland data; imputation, ECG-proxy
+features, scaling and resampling fitted **inside** each training fold; 5×10 repeated
+stratified CV (50 folds; 30 for neural-network and robustness runs); fixed Section-15
+hyper-parameters; 95% CIs from the Nadeau–Bengio corrected resampled t-test; Holm-adjusted
+p-values. Run with `python experiments/run_ablation.py` (results are cached in
+`results/ablation/cache/`, which is not committed).
+
+| Cell | Experiment |
+|------|------------|
+| c01 | Component ablation (21 variants: feature groups, SMOTE, each ensemble member, hard voting, stacking) |
+| c02 | Controls (non-ECG features, Gaussian noise, row-shuffled proxy block) + 100-permutation label test |
+| c03 | Imbalance strategies (none, class weights, ROS, SMOTE pre/post, SMOTE-NC, Borderline, ADASYN) + SMOTE realism + class counts |
+| c04 | Leakage (global preprocessing, SMOTE before CV), nested tuning, 200 random hold-out splits |
+| c05 | 16 robustness scenarios (label noise, MCAR, measurement noise, training size, missing tests) + subgroups |
+| c06 | Ordinal vs one-hot encoding, Platt/isotonic calibration |
+| c07 | External validation on Hungary, Switzerland, VA Long Beach; chol = 0 edge case |
+| c08 | SHAP stability across folds/seeds, permutation-importance agreement, dependence and local plots |
+| c09 | Dual-branch DL: concat vs cross-attention (L=1) vs linear vs token-level attention |
+| c10 | PTB-XL ECG branch: leads, tsfresh set, 12-lead, VarianceThreshold leakage, sample size, signal quality |
+| c11 | Claim-by-claim verdict table |
+
+### 4. Key findings (numbers from `results/ablation/tables/`)
+- Full system AUC 0.902 [0.858, 0.945]; clinical-only AUC 0.906 [0.864, 0.947];
+  ΔAUC +0.004 [−0.009, +0.017] in favour of clinical-only. **RQ1: the ECG-proxy block does not improve prediction.**
+- No feature group changes AUC by more than 0.001. Correcting the downslope bug changes nothing.
+- 18 Gaussian-noise columns (AUC 0.899) or 18 non-ECG engineered columns (0.903) do as well as the proxy block.
+- The permutation test confirms real signal (AUC 0.907 vs 0.497 null, p = 0.0099).
+- SMOTE: −SMOTE ΔAUC −0.002 (n.s.); all eight imbalance strategies are within ±0.005.
+  100% of SMOTE rows have non-integer categorical codes; 13.6% have inconsistent derived features.
+- Leakage: SMOTE before CV inflates AUC to 0.916; global preprocessing has a negligible effect here.
+- Hold-out: over 200 random 80/20 splits, fused accuracy is 0.833 (95% range 0.754–0.918). The paper's seed-42
+  split is at the 95th percentile (accuracy) and 99th (AUC). Fused beats clinical on only 41% of splits.
+- Robustness: across 16 perturbations ΔAUC (fused − clinical) lies between −0.014 and +0.004, and none is significant,
+  including the "no angiography/thallium" edge case.
+- Subgroups: no subgroup benefits; AUC is lowest for symptomatic chest pain (0.80) and age ≥ 55 (0.85).
+- Calibration: soft voting is under-confident (slope 1.37); Platt scaling helps (1.13); isotonic over-corrects (0.56).
+- Ensemble: soft voting ≈ SVM alone ≈ logistic regression; it beats RF/GBM alone; hard voting is worse (−0.032).
