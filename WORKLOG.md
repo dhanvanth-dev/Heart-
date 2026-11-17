@@ -152,3 +152,6 @@ p-values. Run with `python experiments/run_ablation.py` (results are cached in
   (`paper/REPRODUCIBILITY.md`).
 - **Corrected notebook, same model, seed-42 split:** fused − clinical = +3.3 pp on the hold-out but −3.0 pp under
   10-fold CV of the same patients.
+- **Knowledge graph refreshed** after the fact-check (`graphify --update`): 109 stale nodes replaced, now 445 nodes,
+  623 edges, 34 communities, 0 dangling edges. Nodes from `paper/v4_extracted_text.txt` intentionally keep what the
+  v4 paper *said* (including its incorrect references); the referee-report nodes flag them.
