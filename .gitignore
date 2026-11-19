@@ -6,3 +6,5 @@ outputs/
 results/ablation/cache/
 results/ablation_rerun/
 notebook/_fixed_base.ipynb
+data/physionet2016/training-a/
+data/physionet2016/states/

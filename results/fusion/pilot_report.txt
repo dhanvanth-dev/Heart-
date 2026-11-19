@@ -1,0 +1,70 @@
+## 1. Physiological validation (normal recordings, n=115, groups=12)
+Expected (Weissler 1968): all systolic time intervals shorten as heart rate rises; steepest for QS2 and ejection time, smallest for the pre-ejection period. S1 follows the R wave; S2 lies near the end of T.
+                                    median (ms)  slope (ms per bpm)    slope 95% CI  Spearman rho vs HR      p
+Interval                                                                                                      
+QS2 (Q -> S2 onset)                       373.5              -1.473  [-2.00, -0.95]              -0.337  0.000
+S1 -> S2 interval (ejection proxy)        320.5              -1.771  [-2.10, -1.44]              -0.627  0.000
+EMAT (Q -> S1 centre)                     109.5               0.118   [-0.25, 0.48]               0.089  0.342
+R -> S1 onset median 7.5 ms (IQR -2.0 to 19.0); EMW median 17.0 ms
+
+## Target: label_pathological  (positives 174/409 recordings)
+LogReg, full feature set: record-level CV AUC 0.748 vs patient-grouped CV 0.651  (inflation +0.097)
+XGBoost, full feature set: record-level CV AUC 0.837 vs patient-grouped CV 0.698  (inflation +0.139)
+
+## Target: label_original  (positives 292/409 recordings)
+LogReg, full feature set: record-level CV AUC 0.705 vs patient-grouped CV 0.593  (inflation +0.112)
+XGBoost, full feature set: record-level CV AUC 0.794 vs patient-grouped CV 0.592  (inflation +0.202)
+
+## 3. Modality ablation (patient-grouped 5-fold CV x 20 repeats; CIs corrected for repeated CV)
+
+
+-- label_pathological
+  model                            set    AUC         AUC CI        dAUC vs ECG only  p_vs_ecg          dAUC vs concat      p
+ LogReg                       ECG only 0.5217 [0.394, 0.650]                     NaN       NaN                     NaN    NaN
+ LogReg                       PCG only 0.6360 [0.549, 0.723]                     NaN       NaN                     NaN    NaN
+ LogReg        Cross-modal timing only 0.6111 [0.461, 0.762] +0.089 [-0.028, +0.206]    0.1330                     NaN    NaN
+ LogReg      ECG + PCG (concatenation) 0.6338 [0.511, 0.757]                     NaN       NaN                     NaN    NaN
+ LogReg ECG + PCG + cross-modal timing 0.6508 [0.509, 0.793]                     NaN       NaN +0.017 [-0.041, +0.075] 0.5643
+XGBoost                       ECG only 0.6093 [0.518, 0.701]                     NaN       NaN                     NaN    NaN
+XGBoost                       PCG only 0.6924 [0.620, 0.765]                     NaN       NaN                     NaN    NaN
+XGBoost        Cross-modal timing only 0.6032 [0.504, 0.703] -0.006 [-0.098, +0.086]    0.8949                     NaN    NaN
+XGBoost      ECG + PCG (concatenation) 0.6852 [0.598, 0.773]                     NaN       NaN                     NaN    NaN
+XGBoost ECG + PCG + cross-modal timing 0.6983 [0.582, 0.814]                     NaN       NaN +0.013 [-0.050, +0.076] 0.6798
+
+-- label_original
+  model                            set    AUC         AUC CI        dAUC vs ECG only  p_vs_ecg          dAUC vs concat      p
+ LogReg                       ECG only 0.5258 [0.400, 0.652]                     NaN       NaN                     NaN    NaN
+ LogReg                       PCG only 0.6018 [0.519, 0.685]                     NaN       NaN                     NaN    NaN
+ LogReg        Cross-modal timing only 0.6096 [0.474, 0.745] +0.084 [-0.013, +0.180]    0.0880                     NaN    NaN
+ LogReg      ECG + PCG (concatenation) 0.5848 [0.464, 0.706]                     NaN       NaN                     NaN    NaN
+ LogReg ECG + PCG + cross-modal timing 0.5929 [0.461, 0.725]                     NaN       NaN +0.008 [-0.044, +0.060] 0.7557
+XGBoost                       ECG only 0.5075 [0.377, 0.638]                     NaN       NaN                     NaN    NaN
+XGBoost                       PCG only 0.5597 [0.492, 0.628]                     NaN       NaN                     NaN    NaN
+XGBoost        Cross-modal timing only 0.5907 [0.499, 0.683] +0.083 [-0.076, +0.243]    0.3031                     NaN    NaN
+XGBoost      ECG + PCG (concatenation) 0.5604 [0.455, 0.666]                     NaN       NaN                     NaN    NaN
+XGBoost ECG + PCG + cross-modal timing 0.5921 [0.491, 0.693]                     NaN       NaN +0.032 [-0.021, +0.085] 0.2377
+
+## 4. SHAP (XGBoost, pathological target, fitted on all recordings — descriptive)
+                   mean|SHAP|       family  direction (rho value vs SHAP)
+ecg_qrs_dur             0.553          ECG                          0.874
+ecg_rmssd               0.495          ECG                          0.488
+pcg_sys_hf_ratio        0.417          PCG                          0.954
+pcg_cycle_sd            0.339          PCG                         -0.879
+pcg_dia_hf_ratio        0.335          PCG                         -0.916
+x_rs1                   0.316  cross-modal                          0.877
+pcg_sys_s1_energy       0.316          PCG                          0.909
+x_pct_emat              0.305  cross-modal                          0.210
+pcg_sys_frac            0.231          PCG                         -0.889
+ecg_t_amp               0.210          ECG                         -0.316
+ecg_r_amp               0.193          ECG                         -0.773
+x_emat                  0.187  cross-modal                          0.681
+share of |SHAP| by family: ECG 34%, PCG 42%, cross-modal 24%
+
+## 5. Rate-corrected intervals by diagnosis (median; groups in brackets)
+             n  groups   EMAT  pct_EMAT    QS2   S1S2   EMW    HR
+diagnosis                                                        
+AD          17       5  135.5      12.9  424.0  360.0  24.5  77.3
+Benign     118      27  119.5      13.9  395.5  340.0  11.5  70.4
+MPC         23       7  119.5      16.7  415.5  340.0  15.5  71.8
+MVP        134      30  129.0      14.5  396.5  334.8  12.5  67.4
+Normal     117      13  109.5      13.2  373.5  320.2  26.5  69.8

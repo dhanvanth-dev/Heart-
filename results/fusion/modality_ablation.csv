@@ -1,0 +1,25 @@
+target,model,set,AUC,AUC CI,dAUC vs ECG only,p_vs_ecg,dAUC vs concat,p
+label_pathological,LogReg,LEAKAGE ungrouped,0.7477763275522976,,,,,
+label_pathological,XGBoost,LEAKAGE ungrouped,0.8371789737171464,,,,,
+label_pathological,LogReg,ECG only,0.5217002536758288,"[0.394, 0.650]",,,,
+label_pathological,LogReg,PCG only,0.6360399103130535,"[0.549, 0.723]",,,,
+label_pathological,LogReg,Cross-modal timing only,0.6110538441239683,"[0.461, 0.762]","+0.089 [-0.028, +0.206]",0.1329940447174831,,
+label_pathological,LogReg,ECG + PCG (concatenation),0.633820359390014,"[0.511, 0.757]",,,,
+label_pathological,LogReg,ECG + PCG + cross-modal timing,0.6508311721200072,"[0.509, 0.793]",,,"+0.017 [-0.041, +0.075]",0.564273188741103
+label_pathological,XGBoost,ECG only,0.609316544398213,"[0.518, 0.701]",,,,
+label_pathological,XGBoost,PCG only,0.6923535038294543,"[0.620, 0.765]",,,,
+label_pathological,XGBoost,Cross-modal timing only,0.603194484449093,"[0.504, 0.703]","-0.006 [-0.098, +0.086]",0.8949028972939407,,
+label_pathological,XGBoost,ECG + PCG (concatenation),0.6851888255861145,"[0.598, 0.773]",,,,
+label_pathological,XGBoost,ECG + PCG + cross-modal timing,0.6983217321587527,"[0.582, 0.814]",,,"+0.013 [-0.050, +0.076]",0.6798084249695047
+label_original,LogReg,LEAKAGE ungrouped,0.7047453762525516,,,,,
+label_original,XGBoost,LEAKAGE ungrouped,0.7937568027426964,,,,,
+label_original,LogReg,ECG only,0.5258248853435238,"[0.400, 0.652]",,,,
+label_original,LogReg,PCG only,0.6018077475096557,"[0.519, 0.685]",,,,
+label_original,LogReg,Cross-modal timing only,0.6095842867291323,"[0.474, 0.745]","+0.084 [-0.013, +0.180]",0.08803190467347012,,
+label_original,LogReg,ECG + PCG (concatenation),0.5847556863141531,"[0.464, 0.706]",,,,
+label_original,LogReg,ECG + PCG + cross-modal timing,0.5929431888729373,"[0.461, 0.725]",,,"+0.008 [-0.044, +0.060]",0.7557374255295992
+label_original,XGBoost,ECG only,0.5075212903114229,"[0.377, 0.638]",,,,
+label_original,XGBoost,PCG only,0.5597070917931604,"[0.492, 0.628]",,,,
+label_original,XGBoost,Cross-modal timing only,0.5906918713829561,"[0.499, 0.683]","+0.083 [-0.076, +0.243]",0.3030878102238411,,
+label_original,XGBoost,ECG + PCG (concatenation),0.5603918301594536,"[0.455, 0.666]",,,,
+label_original,XGBoost,ECG + PCG + cross-modal timing,0.5920920279216776,"[0.491, 0.693]",,,"+0.032 [-0.021, +0.085]",0.23768940936603306

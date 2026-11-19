@@ -167,3 +167,12 @@ p-values. Run with `python experiments/run_ablation.py` (results are cached in
   - fluoroscopy/thallium do not transfer to new hospitals;
   - no model beats "test everyone" at the ESC 15% threshold.
 - Blocked: fetching the CAD Consortium coefficients and the ESC 2019 table (permission). Awaiting the author.
+
+### 9. Direction change: genuine two-modality fusion with XAI (see `FUSION_PILOT.md`)
+- The author chose Option 1: simultaneous ECG + heart sound (PhysioNet/CinC 2016 training-a, 409 recordings, open).
+- Patient groups were recovered from the original record names (60 conservative groups). 4 recordings have no ECG.
+- Cross-modal electromechanical features (EMAT, R→S1, QS2, EMW, %EMAT) are physiologically valid: QS2 and S1→S2
+  shorten with heart rate (−1.47 and −1.77 ms/bpm); EMAT is flat (Weissler pattern).
+- Patient leakage inflates AUC by +0.10 to +0.20 (record-level vs patient-grouped CV).
+- Cross-modal timing alone ≈ PCG and > ECG alone. The increment over concatenation is +0.013 to +0.032 (n.s.; ~60
+  patients). SHAP directions are physiologically coherent.
