@@ -155,3 +155,15 @@ p-values. Run with `python experiments/run_ablation.py` (results are cached in
 - **Knowledge graph refreshed** after the fact-check (`graphify --update`): 109 stale nodes replaced, now 445 nodes,
   623 edges, 34 communities, 0 dangling edges. Nodes from `paper/v4_extracted_text.txt` intentionally keep what the
   v4 paper *said* (including its incorrect references); the referee-report nodes flag them.
+
+### 8. Search for new data and a publishable extension (see `EXTENSION_PROPOSAL.md`)
+- Literature check: leakage-free nested-CV evaluation and leave-one-hospital-out validation on the UCI cohorts are
+  already published, so the v5 evaluation is not novel by itself.
+- New cohort: **Z-Alizadeh Sani** (UCI id 412, CC BY 4.0, `data/zalizadeh/`), with patient-level clinical,
+  resting-ECG, lab and echo data and angiographic labels. With the 4 UCI sites: 1,223 patients, 5 cohorts, 4 countries.
+- Pilot (`experiments/extension/pilot_stagewise.py`, outputs in `results/extension/`):
+  - exercise ECG adds ΔAUC +0.040 [+0.023, +0.058] at external hospitals (I² = 0);
+  - detailed resting-ECG findings add +0.020 [−0.001, +0.040] in Z-Alizadeh Sani; the coarse UCI `restecg` adds nothing;
+  - fluoroscopy/thallium do not transfer to new hospitals;
+  - no model beats "test everyone" at the ESC 15% threshold.
+- Blocked: fetching the CAD Consortium coefficients and the ESC 2019 table (permission). Awaiting the author.

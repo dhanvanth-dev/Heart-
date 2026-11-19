@@ -1,0 +1,21 @@
+Increment,Held-out site,dAUC,95% CI,I2
+S1 symptoms -> S2 + risk factors,cleveland,0.0005702754869274518,"[-0.013, +0.013]",
+S1 symptoms -> S2 + risk factors,hungarian,0.009860497792051448,"[-0.003, +0.023]",
+S1 symptoms -> S2 + risk factors,switzerland,0.015217391304347738,"[-0.013, +0.061]",
+S1 symptoms -> S2 + risk factors,va,0.007500986971969992,"[-0.027, +0.037]",
+S1 symptoms -> S2 + risk factors,POOLED (random effects),0.005980165566675028,"[-0.003, +0.014]",0.0
+S2 + risk factors -> S3 + resting ECG,cleveland,-0.010922968941919686,"[-0.021, -0.001]",
+S2 + risk factors -> S3 + resting ECG,hungarian,0.00010036130068236115,"[-0.003, +0.003]",
+S2 + risk factors -> S3 + resting ECG,switzerland,-0.004347826086956497,"[-0.017, +0.004]",
+S2 + risk factors -> S3 + resting ECG,va,-0.00039478878799847905,"[-0.002, +0.001]",
+S2 + risk factors -> S3 + resting ECG,POOLED (random effects),-0.000975718641877383,"[-0.003, +0.001]",0.4109067990445216
+S3 + resting ECG -> S4 + exercise ECG,cleveland,0.040138620810668546,"[+0.012, +0.071]",
+S3 + resting ECG -> S4 + exercise ECG,hungarian,0.04300481734243278,"[+0.020, +0.069]",
+S3 + resting ECG -> S4 + exercise ECG,switzerland,-0.034782608695652195,"[-0.233, +0.148]",
+S3 + resting ECG -> S4 + exercise ECG,va,0.03579418344519014,"[-0.009, +0.082]",
+S3 + resting ECG -> S4 + exercise ECG,POOLED (random effects),0.0403389486128207,"[+0.023, +0.058]",0.0
+S4 + exercise ECG -> S5 + fluoroscopy/thallium,cleveland,-0.015397438147043196,"[-0.038, +0.008]",
+S4 + exercise ECG -> S5 + fluoroscopy/thallium,hungarian,0.0032115616218386656,"[-0.003, +0.010]",
+S4 + exercise ECG -> S5 + fluoroscopy/thallium,switzerland,-0.06521739130434778,"[-0.184, +0.011]",
+S4 + exercise ECG -> S5 + fluoroscopy/thallium,va,-0.013686011317278535,"[-0.026, -0.003]",
+S4 + exercise ECG -> S5 + fluoroscopy/thallium,POOLED (random effects),-0.007869195017924997,"[-0.022, +0.006]",0.6714756628645836
